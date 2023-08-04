@@ -1,0 +1,14 @@
+<div class="offcanvas-body">
+    <nav class="nav flex-column mx-4 my-3">
+        <strong>Categories:</strong>
+        <li *ngFor="let category of categories">
+            <ul class="list-unstyled">
+                <li>
+                    <a class="nav-link" href="#">
+                        {{category.description}} ({{category.name}})
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </nav>
+</div>

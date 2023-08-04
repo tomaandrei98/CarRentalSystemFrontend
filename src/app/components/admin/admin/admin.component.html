@@ -1,0 +1,31 @@
+<div class="container mt-4">
+    <h1>Dashboard Admin Management</h1>
+    <ul class="nav nav-tabs my-2" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="category-tab" data-bs-toggle="tab" data-bs-target="#category-tab-pane" type="button" role="tab" aria-controls="category-tab-pane" aria-selected="true">Category</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="car-tab" data-bs-toggle="tab" data-bs-target="#car-tab-pane" type="button" role="tab" aria-controls="car-tab-pane" aria-selected="false">Car</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer-tab-pane" type="button" role="tab" aria-controls="customer-tab-pane" aria-selected="false">Customer</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="order-tab" data-bs-toggle="tab" data-bs-target="#order-tab-pane" type="button" role="tab" aria-controls="order-tab-pane" aria-selected="false">Rental</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="category-tab-pane" role="tabpanel" aria-labelledby="category-tab" tabindex="0">
+            <app-category-admin></app-category-admin>
+        </div>
+        <div class="tab-pane fade" id="car-tab-pane" role="tabpanel" aria-labelledby="car-tab" tabindex="0">
+            <app-car-admin></app-car-admin>
+        </div>
+        <div class="tab-pane fade" id="customer-tab-pane" role="tabpanel" aria-labelledby="customer-tab" tabindex="0">
+            <app-customer-admin></app-customer-admin>
+        </div>
+        <div class="tab-pane fade" id="order-tab-pane" role="tabpanel" aria-labelledby="order-tab" tabindex="0">
+            <app-rental-admin></app-rental-admin>
+        </div>
+      </div>
+</div>

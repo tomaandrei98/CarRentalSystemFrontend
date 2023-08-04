@@ -1,0 +1,157 @@
+<div class="container">
+    <a type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#addCustomer">Add Customer</a>
+
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customer of customers; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{customer.firstName}}</td>
+            <td>{{customer.lastName}}</td>
+            <td>{{customer.email}}</td>
+            <td>{{customer.phone}}</td>
+            <td>
+                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateCustomer" (click)="populateModalForEdit(customer)">Edit</a>
+                <a type="button" class="btn btn-danger mx-2" (click)="confirmDelete(customer)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+
+<!-- add customer modal -->
+<div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="addCustomerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        
+      <div class="modal-header">
+      <h1 class="modal-title fs-5" id="addCustomerLabel">Add Customer</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <form [formGroup]="addCustomerForm" action="" (ngSubmit)="submitFormData()">
+          <div class="modal-body">
+              <div class="form-group form-floating mb-3 mt-3">
+                  <input type="text" formControlName="firstName" class="form-control" name="firstName" id="firstName" placeholder="Enter first name.." required>
+                  <label for="firstName">First Name</label>
+
+                  <div *ngIf="addCustomerForm.controls['firstName'].invalid && addCustomerForm.controls['firstName'].touched" class="text-danger">
+                    <div *ngIf="addCustomerForm.controls['firstName'].hasError('required')">First name is required.</div>
+                    <div *ngIf="addCustomerForm.controls['firstName'].hasError('minlength')">First name should be at least 2 characters long.</div>
+                  </div>
+              </div>
+              <div class="form-group form-floating mb-3 mt-3">
+                  <input type="text" formControlName="lastName" class="form-control" name="lastName" id="lastName" placeholder="Enter last name.." required>
+                  <label for="lastName">Last Name</label>
+
+                  <div *ngIf="addCustomerForm.controls['lastName'].invalid && addCustomerForm.controls['lastName'].touched" class="text-danger">
+                    <div *ngIf="addCustomerForm.controls['lastName'].hasError('required')">Last name is required.</div>
+                    <div *ngIf="addCustomerForm.controls['lastName'].hasError('minlength')">Last name should be at least 2 characters long.</div>
+                  </div>
+              </div>
+              <div class="form-group form-floating mb-3 mt-3">
+                  <input type="email" formControlName="email" class="form-control" name="email" id="email" placeholder="Enter email.." required>
+                  <label for="email">Email</label>
+
+                  <div *ngIf="addCustomerForm.controls['email'].invalid && addCustomerForm.controls['email'].touched" class="text-danger">
+                    <div *ngIf="addCustomerForm.controls['email'].hasError('required')">Email is required.</div>
+                    <div *ngIf="!addCustomerForm.controls['email'].hasError('required') && addCustomerForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
+                  </div>
+              </div>
+              <div class="form-group form-floating mb-3 mt-3">
+                <input type="text" formControlName="phone" class="form-control" name="phone" id="phone" placeholder="Enter phone.." required>
+                <label for="phone">Phone</label>
+
+                <div *ngIf="addCustomerForm.controls['phone'].invalid && addCustomerForm.controls['phone'].touched" class="text-danger">
+                  <div *ngIf="addCustomerForm.controls['phone'].hasError('required')">Phone is required.</div>
+                  <div *ngIf="!addCustomerForm.controls['phone'].hasError('required') && addCustomerForm.controls['phone'].hasError('invalidPhoneLength')">Phone number must contain exactly 10 digits.</div>
+                  <div *ngIf="addCustomerForm.controls['phone'].hasError('pattern')">Invalid phone number. Only numbers are allowed.</div>
+                </div>
+            </div>
+          </div>      
+          
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="addCustomerForm.invalid">Save</button>
+          </div>
+      </form>
+      </div>
+  </div>
+</div>
+
+
+
+<!-- update category modal -->
+<div class="modal fade" id="updateCustomer" tabindex="-1" aria-labelledby="updateCustomerLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="updateCustomerLabel">Update Customer</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      
+      <form [formGroup]="updateCustomerForm" action="" (ngSubmit)="submitUpdatedFormData()" *ngIf="customerToUpdate">
+        <div class="modal-body">
+            <div class="form-group form-floating mb-3 mt-3">
+                <input type="text" formControlName="firstName" class="form-control" name="firstName" id="firstName" 
+                [(ngModel)]="customerToUpdate.firstName" placeholder="Enter first name.." required>
+                <label for="firstName">First Name</label>
+
+                <div *ngIf="updateCustomerForm.controls['firstName'].invalid" class="text-danger">
+                  <div *ngIf="updateCustomerForm.controls['firstName'].hasError('required')">First name is required.</div>
+                  <div *ngIf="updateCustomerForm.controls['firstName'].hasError('minlength')">First name should be at least 2 characters long.</div>
+                </div>
+            </div>
+            <div class="form-group form-floating mb-3 mt-3">
+                <input type="text" formControlName="lastName" class="form-control" name="lastName" id="lastName" 
+                [(ngModel)]="customerToUpdate.lastName" placeholder="Enter last name.." required>
+                <label for="lastName">Last Name</label>
+
+                <div *ngIf="updateCustomerForm.controls['lastName'].invalid" class="text-danger">
+                  <div *ngIf="updateCustomerForm.controls['lastName'].hasError('required')">Last name is required.</div>
+                  <div *ngIf="updateCustomerForm.controls['lastName'].hasError('minlength')">Last name should be at least 2 characters long.</div>
+                </div>
+            </div>
+            <div class="form-group form-floating mb-3 mt-3">
+                <input type="email" formControlName="email" class="form-control" name="email" id="email"
+                [(ngModel)]="customerToUpdate.email" placeholder="Enter email.." required>
+                <label for="email">Email</label>
+
+                <div *ngIf="updateCustomerForm.controls['email'].invalid" class="text-danger">
+                  <div *ngIf="updateCustomerForm.controls['email'].hasError('required')">Email is required.</div>
+                  <div *ngIf="!updateCustomerForm.controls['email'].hasError('required') && updateCustomerForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
+                </div>
+            </div>
+            <div class="form-group form-floating mb-3 mt-3">
+              <input type="text" formControlName="phone" class="form-control" name="phone" id="phone"
+              [(ngModel)]="customerToUpdate.phone" placeholder="Enter phone.." required>
+              <label for="phone">Phone</label>
+
+              <div *ngIf="updateCustomerForm.controls['phone'].invalid" class="text-danger">
+                <div *ngIf="updateCustomerForm.controls['phone'].hasError('required')">Phone is required.</div>
+                <div *ngIf="!updateCustomerForm.controls['phone'].hasError('required') && updateCustomerForm.controls['phone'].hasError('invalidPhoneLength')">Phone number must contain exactly 10 digits.</div>
+                <div *ngIf="updateCustomerForm.controls['phone'].hasError('pattern')">Invalid phone number. Only numbers are allowed.</div>
+              </div>
+          </div>
+        </div>      
+        
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="updateCustomerForm.invalid">Save</button>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>

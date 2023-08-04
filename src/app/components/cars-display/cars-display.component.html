@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="row row-cols-2 row-cols-md-3 g-4">
+        <div class="col">
+          <div class="card" *ngFor="let car of cars">
+            <img src={{car.imageUrl}} class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{car.make}}</h5>
+              <span class="card-text"> - {{car.year}}</span>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

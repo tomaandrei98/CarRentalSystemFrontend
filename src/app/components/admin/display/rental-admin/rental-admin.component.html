@@ -1,0 +1,105 @@
+<div class="container">
+    <a type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#addRental">Add Rental</a>
+
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Returned</th>
+            <th scope="col">Total Price</th>
+            <th scope="col">Customer #</th>
+            <th scope="col">Cars #</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rental of rentals; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{rental.startDate}}</td>
+            <td>{{rental.endDate}}</td>
+            <td>{{rental.returned}}</td>
+            <td>{{rental.totalPrice | currency:"EUR"}}</td>
+            <td>{{rental.customerId}}</td>
+            <td>{{rental.carsId}}</td>
+            <td>
+                <!-- <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateRental">Edit</a> -->
+                <a type="button" class="btn btn-warning" (click)="confirmReturn(rental)">Return</a>
+                <a type="button" class="btn btn-danger mx-2" (click)="confirmDelete(rental)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<!-- add rental modal -->
+<div class="modal fade" id="addRental" tabindex="-1" aria-labelledby="addRentalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addRentalLabel">Add Rental</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <form [formGroup]="addRentalForm" action="" (ngSubmit)="submitFormData()">
+            <div class="modal-body">
+                <div class="form-group form-floating mb-3 mt-3">
+                    <input type="email" formControlName="email" class="form-control" name="email" id="email" placeholder="Enter your email.." required>
+                    <label for="email">Email</label>
+
+
+                  <div *ngIf="addRentalForm.controls['email'].invalid && addRentalForm.controls['email'].touched" class="text-danger">
+                    <div *ngIf="addRentalForm.controls['email'].hasError('required')">Email is required.</div>
+                    <div *ngIf="!addRentalForm.controls['email'].hasError('required') && addRentalForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
+                  </div>
+                </div>
+                <div class="form-group form-floating mb-3 mt-3">
+                    <input type="date" formControlName="startDate" class="form-control" name="startDate" id="startDate" placeholder="Enter starting date.." required>
+                    <label for="startDate">Start Date</label>
+
+                    <div *ngIf="addRentalForm.controls['startDate'].invalid && addRentalForm.controls['startDate'].touched" class="text-danger">
+                      <div *ngIf="addRentalForm.controls['startDate'].hasError('required')">Start date is required.</div>
+                      <div *ngIf="addRentalForm.controls['startDate'].hasError('startDateBeforeToday')">Start date cannot be before today.</div>
+                      <div *ngIf="addRentalForm.controls['startDate'].hasError('endDateBeforeStartDate')">Start date cannot be after the end date.</div>
+                    </div>
+                </div>
+                <div class="form-group form-floating mb-3 mt-3">
+                    <input type="date" formControlName="endDate" class="form-control" name="endDate" id="endDate" placeholder="Enter starting date.." required>
+                    <label for="endDate">End Date</label>
+
+                    <div *ngIf="addRentalForm.controls['endDate'].invalid && addRentalForm.controls['endDate'].touched" class="text-danger">
+                      <div *ngIf="addRentalForm.controls['endDate'].hasError('required')">End date is required.</div>
+                    </div>
+
+                    <div *ngIf="errorMessage" class="text-danger">
+                      {{ errorMessage }}
+                    </div>
+                </div>
+                
+                <a type="button" class="btn btn-primary m-3" (click)="populateAvailableCars()">Show Available Cars</a>
+                
+               
+
+                <h2 *ngIf="availableCars != null && availableCars.length === 0" class="text-center text-muted">No cars available for the selected dates.</h2>
+
+                <div class="form-group mb-3 mt-3" *ngIf="availableCars && availableCars.length > 0">
+                    <label for="carsId">Available Cars</label>
+                    <select name="carsId" id="carsId" class="form-select" formControlName="carsId" required multiple>
+                      <option [ngValue]="null" disabled>Select one or more..</option>
+                      <option *ngFor="let car of availableCars" [ngValue]="car.id">{{ car.make }} {{ car.model }} - {{ car.year }}</option>
+                    </select>
+                </div>
+            </div>      
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+            </div>
+        </form>
+        </div>
+    </div>
+  </div>
+  
+  

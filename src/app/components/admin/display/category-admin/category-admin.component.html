@@ -1,0 +1,126 @@
+<div class="container">
+    <a type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#addCategory">Add Category</a>
+
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categories; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{category.name}}</td>
+            <td>{{category.description}}</td>
+            <td>
+                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateCategory" (click)="populateModalForEdit(category)">Edit</a>
+                <a type="button" class="btn btn-danger mx-2" (click)="confirmDelete(category)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+
+<!-- add category modal -->
+<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addCategoryLabel">Add Category</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <form [formGroup]="addCategoryForm" action="" (ngSubmit)="submitFormData()">
+            <div class="modal-body">
+                <div class="form-group form-floating mb-3 mt-3">
+                    <input type="text" formControlName="name" class="form-control" name="name" id="name" placeholder="Enter category name.." required>
+                    <label for="name">Name</label>
+
+                    <div *ngIf="addCategoryForm.controls['name'].invalid && addCategoryForm.controls['name'].touched" class="text-danger">
+                        <div *ngIf="addCategoryForm.controls['name'].hasError('required')">Name is required.</div>
+                        <div *ngIf="addCategoryForm.controls['name'].hasError('minlength')">Name must be at least 2 characters long.</div>
+                    </div>
+                </div>
+                <div class="form-group form-floating mb-3 mt-3">
+                    <input type="text" formControlName="description" class="form-control" name="description" id="description" placeholder="Enter category description.." required>
+                    <label for="description">Description</label>
+
+                    <div *ngIf="addCategoryForm.controls['description'].invalid && addCategoryForm.controls['description'].touched" class="text-danger">
+                        <div *ngIf="addCategoryForm.controls['description'].hasError('required')">Description is required.</div>
+                        <div *ngIf="addCategoryForm.controls['description'].hasError('minlength')">Description must be at least 2 characters long.</div>
+                    </div>
+                </div>
+            </div>      
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="addCategoryForm.invalid">Save</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- update category modal -->
+<div class="modal fade" id="updateCategory" tabindex="-1" aria-labelledby="updateCategoryLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateCategoryLabel">Update Category</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form [formGroup]="updateCategoryForm" action="" (ngSubmit)="submitUpdatedFormData()" *ngIf="categoryToUpdate">
+            <div class="modal-body">
+                <div class="form-group form-floating mb-3 mt-3">
+                    <input type="text" 
+                        formControlName="name" 
+                        class="form-control" 
+                        name="name" 
+                        id="name" 
+                        placeholder="Enter category name.."
+                        [(ngModel)]="categoryToUpdate.name" 
+                        required
+                    >
+                    <label for="name">Name</label>
+
+                    <div *ngIf="updateCategoryForm.controls['name'].invalid" class="text-danger">
+                        <div *ngIf="updateCategoryForm.controls['name'].hasError('required')">Name is required.</div>
+                        <div *ngIf="updateCategoryForm.controls['name'].hasError('minlength')">Name must be at least 2 characters long.</div>
+                    </div>
+                </div>
+                <div class="form-group form-floating mb-3 mt-3">
+                    <input type="text" 
+                        formControlName="description" 
+                        class="form-control" 
+                        name="description" 
+                        id="description" 
+                        placeholder="Enter category description.." 
+                        [(ngModel)]="categoryToUpdate.description" 
+                        required
+                    >
+                    <label for="description">Description</label>
+
+                    <div *ngIf="updateCategoryForm.controls['description'].invalid" class="text-danger">
+                        <div *ngIf="updateCategoryForm.controls['description'].hasError('required')">Description is required.</div>
+                        <div *ngIf="updateCategoryForm.controls['description'].hasError('minlength')">Description must be at least 2 characters long.</div>
+                    </div>
+                </div>
+            </div>      
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="updateCategoryForm.invalid">Save changes</button>
+            </div>
+        </form>
+
+      </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="container">
+    <nav class="navbar navbar-expand-lg">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <button class="nav-link" disabled>Filter by:</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" aria-current="page" (click)="loadCars()">All</button>
+                </li>
+                <li class="nav-item" *ngFor="let category of categories">
+                <button class="nav-link" aria-current="page" (click)="filterCarsByCategory(category)"> {{ category.name }}</button>
+                </li>
+            </ul>
+
+            <form class="d-flex" role="search" [formGroup]="filterCarForm" (ngSubmit)="filterFormData()">
+                <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" formControlName="name">
+                <button class="btn btn-outline-success rounded-pill" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    
+    <div class="my-3 rounded-pill">
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+            <div class="col" *ngFor="let car of cars">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
+                    <span>{{ car.rentalPricePerDay | currency:"EUR" }} / day</span>
+        
+                    <img [src]="car.imageUrl" class="card-img-top" alt="...">
+                        <p class="card-text">
+                        <span class="card-title">Year: {{ car.year }}</span>
+                        <br>
+                        <span>{{ car.status }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="alert alert-secondary my-4" role="alert" *ngIf="cars.length === 0">
+        No car found matching your criteria — try again!
+    </div>
+
+</div>
