@@ -1,216 +1,502 @@
 <div class="container">
-    <a type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#addCar">Add Car</a>
+  <a
+    type="button"
+    class="btn btn-primary m-3"
+    data-bs-toggle="modal"
+    data-bs-target="#addCar"
+    >Add Car</a
+  >
 
-    <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Make</th>
-            <th scope="col">Model</th>
-            <th scope="col">Year</th>
-            <th scope="col">Image</th>
-            <th scope="col">Price per day</th>
-            <th scope="col">Status</th>
-            <th scope="col">Category #</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let car of cars; let i = index">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{car.make}}</td>
-            <td>{{car.model}}</td>
-            <td>{{car.year}}</td>
-            <td>{{car.imageUrl | imageUrlTruncate}}</td>
-            <td>{{car.rentalPricePerDay | currency:"EUR"}}</td>
-            <td>{{car.status}}</td>
-            <td>{{car.categoryId}}</td>
-            <td>
-                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateCar" (click)="populateModalForEdit(car)">Edit</a>
-                <a type="button" class="btn btn-danger mx-2" (click)="confirmDelete(car)">Delete</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Make</th>
+        <th scope="col">Model</th>
+        <th scope="col">Year</th>
+        <th scope="col">Image</th>
+        <th scope="col">Price per day</th>
+        <th scope="col">Status</th>
+        <th scope="col">Category #</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let car of cars; let i = index">
+        <th scope="row">{{ i + 1 + currentPage * 10 }}</th>
+        <td>{{ car.make }}</td>
+        <td>{{ car.model }}</td>
+        <td>{{ car.year }}</td>
+        <!-- <td>{{ car.imageUrl | imageUrlTruncate }}</td> -->
+        <td><img [src]="car.imageUrl" width="64" height="42"
+          [alt]="car.make + ' \'s photo'"></td>
+        <td>{{ car.rentalPricePerDay | currency : "EUR" }}</td>
+        <td>
+          <span class="badge" [ngClass]="[car.status === 'AVAILABLE' ? ' bg-success' : '', car.status === 'MAINTENANCE' ? ' bg-primary' : '', car.status === 'SOLD' ? ' bg-danger' : '']">
+            {{ car.status }}
+          </span>
+        </td>
+        <td>{{ car.categoryId }}</td>
+        <td>
+          <a
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#updateCar"
+            (click)="populateModalForEdit(car)"
+            >Edit</a
+          >
+          <a
+            type="button"
+            class="btn btn-danger mx-2"
+            (click)="confirmDelete(car)"
+            >Delete</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      <li class="page-item">
+        <button type="button" class="page-link" [disabled]="0 === currentPage" (click)="goToNextOrPreviousPage('backward')">
+          <span aria-hidden="true">&laquo; Previous</span>
+        </button>
+      </li>
+      <li *ngFor="let pageNumber of [].constructor(totalPages); let i = index" class="page-item">
+        <button class="page-link" [ngClass]="i === currentPage ? ' active' : ''" (click)="goToPage(i)">
+          {{ i + 1 }}
+        </button>
+      </li>
+      <li class="page-item">
+        <button type="button" class="page-link" [disabled]="currentPage === totalPages - 1" (click)="goToNextOrPreviousPage('forward')">
+          <span aria-hidden="true">Next &raquo;</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+  
 </div>
 
-
-
 <!-- add car modal -->
-<div class="modal fade" id="addCar" tabindex="-1" aria-labelledby="addCarLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="addCar"
+  tabindex="-1"
+  aria-labelledby="addCarLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
-      <div class="modal-content">
-        
+    <div class="modal-content">
       <div class="modal-header">
-      <h1 class="modal-title fs-5" id="addCarLabel">Add Car</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h1 class="modal-title fs-5" id="addCarLabel">Add Car</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
-      
+
       <form [formGroup]="addCarForm" action="" (ngSubmit)="submitFormData()">
-          <div class="modal-body">
-              <div class="form-group form-floating mb-3 mt-3">
-                  <input type="text" formControlName="make" class="form-control" name="make" id="make" placeholder="Enter car make.." required>
-                  <label for="make">Make</label>
+        <div class="modal-body">
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="text"
+              formControlName="make"
+              class="form-control"
+              name="make"
+              id="make"
+              placeholder="Enter car make.."
+              required
+            />
+            <label for="make">Make</label>
 
-                  <div *ngIf="addCarForm.controls['make'].invalid && (addCarForm.controls['make'].dirty || addCarForm.controls['make'].touched)" class="text-danger">
-                    Make is required.
-                  </div>
-              </div>
-              <div class="form-group form-floating mb-3 mt-3">
-                  <input type="text" formControlName="model" class="form-control" name="model" id="model" placeholder="Enter car model.." required>
-                  <label for="model">Model</label>
+            <div
+              *ngIf="
+                addCarForm.controls['make'].invalid &&
+                (addCarForm.controls['make'].dirty ||
+                  addCarForm.controls['make'].touched)
+              "
+              class="text-danger"
+            >
+              Make is required.
+            </div>
+          </div>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="text"
+              formControlName="model"
+              class="form-control"
+              name="model"
+              id="model"
+              placeholder="Enter car model.."
+              required
+            />
+            <label for="model">Model</label>
 
-                   <div *ngIf="addCarForm.controls['model'].invalid && (addCarForm.controls['model'].dirty || addCarForm.controls['model'].touched)" class="text-danger">
-                    Model is required.
-                  </div>
-              </div>
-              <div class="form-group form-floating mb-3 mt-3">
-                  <input type="number" formControlName="year" class="form-control" name="year" id="year" placeholder="Enter car year.." required>
-                  <label for="year">Year</label>
+            <div
+              *ngIf="
+                addCarForm.controls['model'].invalid &&
+                (addCarForm.controls['model'].dirty ||
+                  addCarForm.controls['model'].touched)
+              "
+              class="text-danger"
+            >
+              Model is required.
+            </div>
+          </div>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="number"
+              formControlName="year"
+              class="form-control"
+              name="year"
+              id="year"
+              placeholder="Enter car year.."
+              required
+            />
+            <label for="year">Year</label>
 
-                  <!-- <div *ngIf="addCarForm.controls['year'].invalid && (addCarForm.controls['year'].dirty || addCarForm.controls['year'].touched)" class="text-danger">
+            <!-- <div *ngIf="addCarForm.controls['year'].invalid && (addCarForm.controls['year'].dirty || addCarForm.controls['year'].touched)" class="text-danger">
                     Year is required.
                   </div> -->
 
-                  <div *ngIf="addCarForm.controls['year'].invalid && addCarForm.controls['year'].touched" class="text-danger">
-                    Please enter a valid 4-digit year.
-                  </div>
-              </div>
-              <div class="form-group form-floating mb-3 mt-3">
-                  <input type="text" formControlName="imageUrl" class="form-control" name="imageUrl" id="imageUrl" placeholder="Enter car imageUrl.." required>
-                  <label for="imageUrl">ImageUrl</label>
+            <div
+              *ngIf="
+                addCarForm.controls['year'].invalid &&
+                addCarForm.controls['year'].touched
+              "
+              class="text-danger"
+            >
+              Please enter a valid 4-digit year.
+            </div>
+          </div>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="text"
+              formControlName="imageUrl"
+              class="form-control"
+              name="imageUrl"
+              id="imageUrl"
+              placeholder="Enter car imageUrl.."
+              required
+            />
+            <label for="imageUrl">ImageUrl</label>
 
-                  <div *ngIf="addCarForm.controls['imageUrl'].invalid && (addCarForm.controls['imageUrl'].dirty || addCarForm.controls['imageUrl'].touched)" class="text-danger">
-                    Image URL is required.
-                  </div>
-              </div>
-              <div class="form-group form-floating mb-3 mt-3">
-                  <input type="number" formControlName="rentalPricePerDay" class="form-control" name="rentalPricePerDay" id="rentalPricePerDay" placeholder="Enter car rentalPricePerDay.." required>
-                  <label for="rentalPricePerDay">Rental Price per Day</label>
+            <div
+              *ngIf="
+                addCarForm.controls['imageUrl'].invalid &&
+                (addCarForm.controls['imageUrl'].dirty ||
+                  addCarForm.controls['imageUrl'].touched)
+              "
+              class="text-danger"
+            >
+              Image URL is required.
+            </div>
+          </div>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="number"
+              formControlName="rentalPricePerDay"
+              class="form-control"
+              name="rentalPricePerDay"
+              id="rentalPricePerDay"
+              placeholder="Enter car rentalPricePerDay.."
+              required
+            />
+            <label for="rentalPricePerDay">Rental Price per Day</label>
 
-                  <div *ngIf="addCarForm.controls['rentalPricePerDay'].invalid && (addCarForm.controls['rentalPricePerDay'].dirty || addCarForm.controls['rentalPricePerDay'].touched)" class="text-danger">
-                    Rental price per day is required.
-                  </div>
+            <div
+              *ngIf="
+                addCarForm.controls['rentalPricePerDay'].invalid &&
+                (addCarForm.controls['rentalPricePerDay'].dirty ||
+                  addCarForm.controls['rentalPricePerDay'].touched)
+              "
+              class="text-danger"
+            >
+              Rental price per day is required.
+            </div>
 
-                  <div *ngIf="addCarForm.controls['rentalPricePerDay'].hasError('negativeRentalPrice')" class="text-danger">
-                    Rental price cannot be negative.
-                  </div>
-              </div>
-              
-              <div class="form-group mb-3 mt-3">
-                  <label for="status">Status</label>
-                  <select name="status" id="status" class="form-select" formControlName="status" required>
-                    <option value="" disabled selected>Select one..</option>
-                    <option *ngFor="let stat of status" [ngValue]="stat">{{ stat }}</option>
-                  </select>
+            <div
+              *ngIf="
+                addCarForm.controls['rentalPricePerDay'].hasError(
+                  'negativeRentalPrice'
+                )
+              "
+              class="text-danger"
+            >
+              Rental price cannot be negative.
+            </div>
+          </div>
 
-                  <!-- <div *ngIf="addCarForm.controls['status'].invalid && (addCarForm.controls['status'].dirty || addCarForm.controls['status'].touched)" class="text-danger">
+          <div class="form-group mb-3 mt-3">
+            <label for="status">Status</label>
+            <select
+              name="status"
+              id="status"
+              class="form-select"
+              formControlName="status"
+              required
+            >
+              <option value="" disabled selected>Select one..</option>
+              <option *ngFor="let stat of status" [ngValue]="stat">
+                {{ stat }}
+              </option>
+            </select>
+
+            <!-- <div *ngIf="addCarForm.controls['status'].invalid && (addCarForm.controls['status'].dirty || addCarForm.controls['status'].touched)" class="text-danger">
                     Status is required.
                   </div> -->
-              </div>
-              
-              <div class="form-group mb-3 mt-3">
-                <label for="category">Category</label>
-                <select class="form-select" name="category" id="category" formControlName="categoryId" required>
-                  <option value="" disabled selected>Select one..</option>
-                  <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
-                </select>
+          </div>
 
-                <!-- <div *ngIf="addCarForm.controls['categoryId'].invalid && (addCarForm.controls['categoryId'].dirty || addCarForm.controls['categoryId'].touched)" class="text-danger">
+          <div class="form-group mb-3 mt-3">
+            <label for="category">Category</label>
+            <select
+              class="form-select"
+              name="category"
+              id="category"
+              formControlName="categoryId"
+              required
+            >
+              <option value="" disabled selected>Select one..</option>
+              <option
+                *ngFor="let category of categories"
+                [ngValue]="category.id"
+              >
+                {{ category.name }}
+              </option>
+            </select>
+
+            <!-- <div *ngIf="addCarForm.controls['categoryId'].invalid && (addCarForm.controls['categoryId'].dirty || addCarForm.controls['categoryId'].touched)" class="text-danger">
                   Category is required.
                 </div> -->
-              </div>
-          </div>      
-          
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!addCarForm.valid">Save</button>
           </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            [disabled]="!addCarForm.valid"
+          >
+            Save
+          </button>
+        </div>
       </form>
-      </div>
+    </div>
   </div>
 </div>
 
 <!-- update car modal -->
-<div class="modal fade" id="updateCar" tabindex="-1" aria-labelledby="updateCarLabel" aria-hidden="true" >
+<div
+  class="modal fade"
+  id="updateCar"
+  tabindex="-1"
+  aria-labelledby="updateCarLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
-      
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="updateCarLabel">Update Car</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
 
-   
-      <form [formGroup]="updateCarForm" action="" (ngSubmit)="submitUpdatedFormData()" *ngIf="carToUpdate">
+      <form
+        [formGroup]="updateCarForm"
+        action=""
+        (ngSubmit)="submitUpdatedFormData()"
+        *ngIf="carToUpdate"
+      >
         <div class="modal-body">
-            <div class="form-group form-floating mb-3 mt-3">
-                <input type="text" formControlName="make" class="form-control" name="make" id="make" 
-                [(ngModel)]="carToUpdate.make" placeholder="Enter car make.." required>
-                <label for="make">Make</label>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="text"
+              formControlName="make"
+              class="form-control"
+              name="make"
+              id="make"
+              [(ngModel)]="carToUpdate.make"
+              placeholder="Enter car make.."
+              required
+            />
+            <label for="make">Make</label>
 
-                <div *ngIf="updateCarForm.controls['make'].invalid && (updateCarForm.controls['make'].dirty || updateCarForm.controls['make'].touched)" class="text-danger">
-                  Make is required.
-                </div>
+            <div
+              *ngIf="
+                updateCarForm.controls['make'].invalid &&
+                (updateCarForm.controls['make'].dirty ||
+                  updateCarForm.controls['make'].touched)
+              "
+              class="text-danger"
+            >
+              Make is required.
             </div>
-            <div class="form-group form-floating mb-3 mt-3">
-                <input type="text" formControlName="model" class="form-control" name="model" id="model" [(ngModel)]="carToUpdate.model" placeholder="Enter car model.." required>
-                <label for="model">Model</label>
+          </div>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="text"
+              formControlName="model"
+              class="form-control"
+              name="model"
+              id="model"
+              [(ngModel)]="carToUpdate.model"
+              placeholder="Enter car model.."
+              required
+            />
+            <label for="model">Model</label>
 
-                <div *ngIf="updateCarForm.controls['model'].invalid && (updateCarForm.controls['model'].dirty || updateCarForm.controls['model'].touched)" class="text-danger">
-                  Model is required.
-                </div>
+            <div
+              *ngIf="
+                updateCarForm.controls['model'].invalid &&
+                (updateCarForm.controls['model'].dirty ||
+                  updateCarForm.controls['model'].touched)
+              "
+              class="text-danger"
+            >
+              Model is required.
             </div>
-            <div class="form-group form-floating mb-3 mt-3">
-                <input type="number" formControlName="year" class="form-control" name="year" id="year" [(ngModel)]="carToUpdate.year" placeholder="Enter car year.." required>
-                <label for="year">Year</label>
+          </div>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="number"
+              formControlName="year"
+              class="form-control"
+              name="year"
+              id="year"
+              [(ngModel)]="carToUpdate.year"
+              placeholder="Enter car year.."
+              required
+            />
+            <label for="year">Year</label>
 
-                <div *ngIf="updateCarForm.controls['year'].invalid && updateCarForm.controls['year'].touched" class="text-danger">
-                  Please enter a valid 4-digit year.
-                </div>
+            <div
+              *ngIf="
+                updateCarForm.controls['year'].invalid &&
+                updateCarForm.controls['year'].touched
+              "
+              class="text-danger"
+            >
+              Please enter a valid 4-digit year.
             </div>
-            <div class="form-group form-floating mb-3 mt-3">
-                <input type="text" formControlName="imageUrl" class="form-control" name="imageUrl" id="imageUrl" [(ngModel)]="carToUpdate.imageUrl" placeholder="Enter car imageUrl.." required>
-                <label for="imageUrl">ImageUrl</label>
+          </div>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="text"
+              formControlName="imageUrl"
+              class="form-control"
+              name="imageUrl"
+              id="imageUrl"
+              [(ngModel)]="carToUpdate.imageUrl"
+              placeholder="Enter car imageUrl.."
+              required
+            />
+            <label for="imageUrl">ImageUrl</label>
 
-                <div *ngIf="updateCarForm.controls['imageUrl'].invalid && (updateCarForm.controls['imageUrl'].dirty || updateCarForm.controls['imageUrl'].touched)" class="text-danger">
-                  Image URL is required.
-                </div>
+            <div
+              *ngIf="
+                updateCarForm.controls['imageUrl'].invalid &&
+                (updateCarForm.controls['imageUrl'].dirty ||
+                  updateCarForm.controls['imageUrl'].touched)
+              "
+              class="text-danger"
+            >
+              Image URL is required.
             </div>
-            <div class="form-group form-floating mb-3 mt-3">
-                <input type="number" formControlName="rentalPricePerDay" class="form-control" name="rentalPricePerDay" id="rentalPricePerDay" [(ngModel)]="carToUpdate.rentalPricePerDay" placeholder="Enter car rentalPricePerDay.." required>
-                <label for="rentalPricePerDay">Rental Price per Day</label>
+          </div>
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="number"
+              formControlName="rentalPricePerDay"
+              class="form-control"
+              name="rentalPricePerDay"
+              id="rentalPricePerDay"
+              [(ngModel)]="carToUpdate.rentalPricePerDay"
+              placeholder="Enter car rentalPricePerDay.."
+              required
+            />
+            <label for="rentalPricePerDay">Rental Price per Day</label>
 
-                <div *ngIf="updateCarForm.controls['rentalPricePerDay'].invalid && (updateCarForm.controls['rentalPricePerDay'].dirty || updateCarForm.controls['rentalPricePerDay'].touched)" class="text-danger">
-                  Rental price per day is required.
-                </div>
+            <div
+              *ngIf="
+                updateCarForm.controls['rentalPricePerDay'].invalid &&
+                (updateCarForm.controls['rentalPricePerDay'].dirty ||
+                  updateCarForm.controls['rentalPricePerDay'].touched)
+              "
+              class="text-danger"
+            >
+              Rental price per day is required.
+            </div>
 
-                <div *ngIf="updateCarForm.controls['rentalPricePerDay'].hasError('negativeRentalPrice')" class="text-danger">
-                  Rental price cannot be negative.
-                </div>
+            <div
+              *ngIf="
+                updateCarForm.controls['rentalPricePerDay'].hasError(
+                  'negativeRentalPrice'
+                )
+              "
+              class="text-danger"
+            >
+              Rental price cannot be negative.
             </div>
-            <div class="form-group mb-3 mt-3">
-                <label for="status">Status</label>
-                <select name="status" id="status" class="form-select" formControlName="status" [(ngModel)]="carToUpdate.status" required>
-                  <option value="" disabled selected>Select one..</option>
-                  <option *ngFor="let stat of status" [ngValue]="stat">{{ stat }}</option>
-                </select>
-            </div>
-            <!-- <div class="form-group mb-3 mt-3">
+          </div>
+          <div class="form-group mb-3 mt-3">
+            <label for="status">Status</label>
+            <select
+              name="status"
+              id="status"
+              class="form-select"
+              formControlName="status"
+              [(ngModel)]="carToUpdate.status"
+              required
+            >
+              <option value="" disabled selected>Select one..</option>
+              <option *ngFor="let stat of status" [ngValue]="stat">
+                {{ stat }}
+              </option>
+            </select>
+          </div>
+          <!-- <div class="form-group mb-3 mt-3">
               <label for="status">Category</label>
               <select class="form-select" name="category" id="category" formControlName="categoryId" [(ngModel)]="carToUpdate.categoryId" required>
                 <option [ngValue]="null">Select one..</option>
                 <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
               </select>
             </div> -->
-        </div>      
-        
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!updateCarForm.valid">Save Changes</button>
         </div>
-    </form>
 
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            [disabled]="!updateCarForm.valid"
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

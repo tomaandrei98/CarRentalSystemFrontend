@@ -22,6 +22,10 @@ export class CustomerService {
     return this.http.get<CustomerResponseById>(`${this.baseUrl}/${id}`)
   }
 
+  getCustomersPaginated(pageNumber: number = 0, pageSize: number = 10, sortBy: string = "firstName"): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/paginated?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
+  }
+
   updateCustomer(id: number, customer: Customer): Observable<CustomerResponse> {
     return this.http.put<CustomerResponse>(`${this.baseUrl}/${id}`, customer)
   }

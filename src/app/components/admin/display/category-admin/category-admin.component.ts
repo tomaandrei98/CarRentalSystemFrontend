@@ -14,6 +14,8 @@ export class CategoryAdminComponent implements OnInit {
   categories: Category[] = []
   addCategoryForm!: FormGroup;
   updateCategoryForm!: FormGroup;
+  totalPages: number = 0;
+  currentPage: number = 0;
   categoryToUpdate!: Category;
   id!: number
 
@@ -42,10 +44,32 @@ export class CategoryAdminComponent implements OnInit {
   }
 
   loadCategories() {
-    this.categoryService.getCategories().subscribe(response => {
-      this.categories = response.data
-      console.log(this.categories)
-    })
+    // this.categoryService.getCategories().subscribe(response => {
+    //   this.categories = response.data
+    //   console.log(this.categories)
+    // })
+
+    this.categoryService.getCategoriesPaginated().subscribe((result) => {
+      this.categories = result.data.categories;
+      this.totalPages = result.data.numberOfPages;
+      console.log('paginated: ' + JSON.stringify(result));
+    });
+  }
+
+  goToPage(pageNumber: number) {
+    this.categoryService
+      .getCategoriesPaginated(pageNumber, 10, 'name')
+      .subscribe((result) => {
+        this.currentPage = pageNumber;
+        this.categories = result.data.categories;
+        this.totalPages = result.data.numberOfPages;
+      });
+  }
+
+  goToNextOrPreviousPage(direction: string) {
+    this.goToPage(
+      direction === 'forward' ? this.currentPage + 1 : this.currentPage - 1
+    );
   }
 
   submitFormData() {

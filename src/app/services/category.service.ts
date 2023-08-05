@@ -23,6 +23,10 @@ export class CategoryService {
     return this.http.get<CategoryResponseById>(`${this.baseUrl}/${id}`)
   }
 
+  getCategoriesPaginated(pageNumber: number = 0, pageSize: number = 10, sortBy: string = "name"): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/paginated?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
+  }
+
   updateCategory(id: number, category: Category) {
     return this.http.put<CategoryResponse>(`${this.baseUrl}/${id}`, category)
   }

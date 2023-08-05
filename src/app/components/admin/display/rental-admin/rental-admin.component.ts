@@ -17,6 +17,8 @@ export class RentalAdminComponent implements OnInit {
   rentals: Rental[] = [];
   addRentalForm!: FormGroup;
   availableCars!: Car[];
+  totalPages: number = 0;
+  currentPage: number = 0;
   errorMessage: string = '';
 
   constructor(private rentalService: RentalService,
@@ -59,10 +61,31 @@ export class RentalAdminComponent implements OnInit {
   }
 
   loadRentals() {
-    this.rentalService.getRentals().subscribe(result => {
-      this.rentals = result.data
-      console.log(this.rentals)
-    })  
+    // this.rentalService.getRentals().subscribe(result => {
+    //   this.rentals = result.data
+    //   console.log(this.rentals)
+    // })  
+
+    this.rentalService.getRentalsPaginated().subscribe(result => {
+      this.rentals = result.data.rentals
+      this.totalPages = result.data.numberOfPages;
+    })
+  }
+
+  goToPage(pageNumber: number) {
+    this.rentalService
+      .getRentalsPaginated(pageNumber, 10, 'id')
+      .subscribe((result) => {
+        this.currentPage = pageNumber;
+        this.rentals = result.data.rentals;
+        this.totalPages = result.data.numberOfPages;
+      });
+  }
+
+  goToNextOrPreviousPage(direction: string) {
+    this.goToPage(
+      direction === 'forward' ? this.currentPage + 1 : this.currentPage - 1
+    );
   }
 
   submitFormData() {
@@ -83,7 +106,10 @@ export class RentalAdminComponent implements OnInit {
     const endDate = this.addRentalForm.get('endDate')?.value;
   
     if (!startDate || !endDate) {
+      this.errorMessage = 'Pick the start date and the end date.';
       return;
+    } else {
+      this.errorMessage = ''
     }
 
     const startDateObj = new Date(startDate);

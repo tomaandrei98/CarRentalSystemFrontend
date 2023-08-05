@@ -7,23 +7,27 @@ import { Car } from '../interfaces/car';
 import { BASE_URL } from '../constants/constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CarService {
-  private baseUrl: string = BASE_URL + "/cars"
-  
-  constructor(private http: HttpClient) { }
+  private baseUrl: string = BASE_URL + '/cars';
+
+  constructor(private http: HttpClient) {}
 
   getCars(): Observable<CarResponse> {
     return this.http.get<CarResponse>(this.baseUrl);
   }
 
+  getCarsPaginated(pageNumber: number = 0, pageSize: number = 10, sortBy: string = "make"): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/paginated?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
+  }
+
   getCarById(id: number) {
-    return this.http.get<CarResponseById>(`${this.baseUrl}/${id}`)
+    return this.http.get<CarResponseById>(`${this.baseUrl}/${id}`);
   }
 
   updateCar(car: Car) {
-    return this.http.put<CarResponse>(`${this.baseUrl}`, car)
+    return this.http.put<CarResponse>(`${this.baseUrl}`, car);
   }
 
   addCar(car: Car): Observable<CarResponse> {
@@ -31,25 +35,27 @@ export class CarService {
   }
 
   deleteCarById(id: number): Observable<CarResponse> {
-    return this.http.delete<CarResponse>(`${this.baseUrl}/${id}`)
+    return this.http.delete<CarResponse>(`${this.baseUrl}/${id}`);
   }
 
-  getAvailableCars(startDate: string, endDate: string): Observable<CarResponse> {
+  getAvailableCars(
+    startDate: string,
+    endDate: string
+  ): Observable<CarResponse> {
     const params = new HttpParams()
       .set('startDate', startDate)
       .set('endDate', endDate);
-    
-    return this.http.get<CarResponse>(`${this.baseUrl}/available`, {params})
+
+    return this.http.get<CarResponse>(`${this.baseUrl}/available`, { params });
   }
 
   getCarsByCategoryId(id: number): Observable<CarResponse> {
-    return this.http.get<CarResponse>(`${this.baseUrl}/category/${id}`)
+    return this.http.get<CarResponse>(`${this.baseUrl}/category/${id}`);
   }
 
   getCarsByMatchingName(name: string) {
-    const params = new HttpParams()
-      .set('matchingName', name);
+    const params = new HttpParams().set('matchingName', name);
 
-    return this.http.get<CarResponse>(`${this.baseUrl}/filter`, {params})
+    return this.http.get<CarResponse>(`${this.baseUrl}/filter`, { params });
   }
 }

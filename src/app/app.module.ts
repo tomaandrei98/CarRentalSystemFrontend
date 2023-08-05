@@ -17,6 +17,7 @@ import { RentalAdminComponent } from './components/admin/display/rental-admin/re
 import { OurVehiclesComponent } from './components/user/display/our-vehicles/our-vehicles.component';
 import { ImageUrlTruncatePipe } from './pipes/image-url-truncate.pipe';
 import { AllVehiclesComponent } from './components/user/display/all-vehicles/all-vehicles.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AllVehiclesComponent } from './components/user/display/all-vehicles/all
     RentalAdminComponent,
     OurVehiclesComponent,
     ImageUrlTruncatePipe,
-    AllVehiclesComponent
+    AllVehiclesComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let customer of customers; let i = index">
-            <th scope="row">{{i + 1}}</th>
+            <th scope="row">{{i + 1 + currentPage * 10}}</th>
             <td>{{customer.firstName}}</td>
             <td>{{customer.lastName}}</td>
             <td>{{customer.email}}</td>
@@ -26,6 +26,27 @@
           </tr>
         </tbody>
       </table>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li class="page-item">
+            <button type="button" class="page-link" [disabled]="0 === currentPage" (click)="goToNextOrPreviousPage('backward')">
+              <span aria-hidden="true">&laquo; Previous</span>
+            </button>
+          </li>
+          <li class="page-item" *ngFor="let pageNumber of [].constructor(totalPages); let i = index">
+            <button class="page-link" [ngClass]="i === currentPage ? ' active' : ''" (click)="goToPage(i)">
+              {{ i + 1 }}
+            </button>
+          </li>
+          
+          <li class="page-item">
+            <button type="button" class="page-link" [disabled]="currentPage === totalPages - 1" (click)="goToNextOrPreviousPage('forward')">
+              <span aria-hidden="true">Next &raquo;</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
 </div>
 
 

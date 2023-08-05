@@ -11,10 +11,11 @@ import { CustomerService } from 'src/app/services/customer.service';
   styleUrls: ['./customer-admin.component.scss']
 })
 export class CustomerAdminComponent implements OnInit {
-
   customers!: Customer[]
   addCustomerForm!: FormGroup;
   updateCustomerForm!: FormGroup;
+  totalPages: number = 0;
+  currentPage: number = 0;
   customerToUpdate!: Customer;
   id!: number;
 
@@ -66,12 +67,34 @@ export class CustomerAdminComponent implements OnInit {
   }
 
   loadCustomers() {
-    this.customerService.getCustomers().subscribe(result => {
-      this.customers = result.data
-      console.log(this.customers)
-    })
+    // this.customerService.getCustomers().subscribe(result => {
+    //   this.customers = result.data
+    //   console.log(this.customers)
+    // })
+
+
+    this.customerService.getCustomersPaginated().subscribe((result) => {
+      this.customers = result.data.customers;
+      this.totalPages = result.data.numberOfPages;
+      console.log('paginated: ' + JSON.stringify(result));
+    });
   }
 
+  goToPage(pageNumber: number) {
+    this.customerService
+      .getCustomersPaginated(pageNumber, 10, 'firstName')
+      .subscribe((result) => {
+        this.currentPage = pageNumber;
+        this.customers = result.data.customers;
+        this.totalPages = result.data.numberOfPages;
+      });
+  }
+
+  goToNextOrPreviousPage(direction: string) {
+    this.goToPage(
+      direction === 'forward' ? this.currentPage + 1 : this.currentPage - 1
+    );
+  }
 
   submitFormData() {
     console.log(this.addCustomerForm.value);

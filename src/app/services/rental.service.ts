@@ -17,6 +17,10 @@ export class RentalService {
     return this.http.get<RentalResponse>(this.baseUrl)
   }
 
+  getRentalsPaginated(pageNumber: number = 0, pageSize: number = 10, sortBy: string = "id"): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/paginated?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
+  }
+
   addRental(rental: Rental): Observable<RentalResponse> {
     return this.http.post<RentalResponse>(this.baseUrl, rental)
   }
