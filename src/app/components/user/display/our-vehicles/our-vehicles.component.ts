@@ -46,8 +46,8 @@ export class OurVehiclesComponent implements OnInit {
   }
 
   loadCategories() {
-    this.categoryService.getCategories().subscribe(result => {
-      this.categories = result.data
+    this.categoryService.getCategoriesPaginated().subscribe(result => {
+      this.categories = result.data.categories
     })
   }
 

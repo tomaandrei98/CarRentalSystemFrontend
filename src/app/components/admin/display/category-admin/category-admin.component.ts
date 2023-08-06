@@ -52,7 +52,7 @@ export class CategoryAdminComponent implements OnInit {
     this.categoryService.getCategoriesPaginated().subscribe((result) => {
       this.categories = result.data.categories;
       this.totalPages = result.data.numberOfPages;
-      console.log('paginated: ' + JSON.stringify(result));
+      // console.log('paginated: ' + JSON.stringify(result));
     });
   }
 
@@ -73,7 +73,7 @@ export class CategoryAdminComponent implements OnInit {
   }
 
   submitFormData() {
-    console.log(this.addCategoryForm.value);
+    // console.log(this.addCategoryForm.value);
     
     this.categoryService.addCategory(this.addCategoryForm.value)
     .subscribe(data => {
@@ -89,7 +89,7 @@ export class CategoryAdminComponent implements OnInit {
   }
 
   submitUpdatedFormData() {
-    console.log(this.updateCategoryForm.value);
+    // console.log(this.updateCategoryForm.value);
 
     this.categoryService.updateCategory(this.id, this.updateCategoryForm.value)
       .subscribe(

@@ -29,6 +29,7 @@
                     <span>{{ car.rentalPricePerDay | currency:"EUR" }} / day</span>
         
                     <img [src]="car.imageUrl" class="card-img-top" alt="...">
+                    <div class="d-flex">
                         <p class="card-text">
                         <span class="card-title">Year: {{ car.year }}</span>
                         <br>
@@ -36,6 +37,8 @@
                             {{ car.status }}
                         </span>
                         </p>
+                        
+                    </div>
                     </div>
                 </div>
             </div>

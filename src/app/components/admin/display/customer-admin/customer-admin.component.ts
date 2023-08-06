@@ -76,7 +76,7 @@ export class CustomerAdminComponent implements OnInit {
     this.customerService.getCustomersPaginated().subscribe((result) => {
       this.customers = result.data.customers;
       this.totalPages = result.data.numberOfPages;
-      console.log('paginated: ' + JSON.stringify(result));
+      // console.log('paginated: ' + JSON.stringify(result));
     });
   }
 
@@ -99,13 +99,17 @@ export class CustomerAdminComponent implements OnInit {
   submitFormData() {
     console.log(this.addCustomerForm.value);
 
-    this.customerService.addCustomer(this.addCustomerForm.value)
-    .subscribe(result => {
-      this.addCustomerForm.reset()
-      console.log(result)
-      console.log("Customer added successfully.")
-      this.loadCustomers()
-    })
+    this.customerService.addCustomer(this.addCustomerForm.value).subscribe(
+      (result) => {
+        this.addCustomerForm.reset();
+        console.log(result);
+        console.log('Customer added successfully.');
+        this.loadCustomers();
+      },
+      (error) => {
+          alert(error.error.message)
+      }
+    );
   
     this.router.navigateByUrl('/admin')
   }
@@ -120,6 +124,9 @@ export class CustomerAdminComponent implements OnInit {
           console.log(result)
           console.log("Category updated successfully.")
           this.loadCustomers()
+        },
+        (error) => {
+            alert(error.error.message)
         }
       )
   }

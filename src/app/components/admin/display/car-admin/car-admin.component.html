@@ -17,6 +17,10 @@
         <th scope="col">Image</th>
         <th scope="col">Price per day</th>
         <th scope="col">Status</th>
+        <th scope="col">Seats</th>
+        <th scope="col">Transmission</th>
+        <th scope="col">Small Bag</th>
+        <th scope="col">Large Bag</th>
         <th scope="col">Category #</th>
         <th scope="col">Action</th>
       </tr>
@@ -24,19 +28,36 @@
     <tbody>
       <tr *ngFor="let car of cars; let i = index">
         <th scope="row">{{ i + 1 + currentPage * 10 }}</th>
-        <td>{{ car.make }}</td>
-        <td>{{ car.model }}</td>
+        <td>{{ car.make | tableOverflow }}</td>
+        <td>{{ car.model | tableOverflow }}</td>
         <td>{{ car.year }}</td>
         <!-- <td>{{ car.imageUrl | imageUrlTruncate }}</td> -->
-        <td><img [src]="car.imageUrl" width="64" height="42"
-          [alt]="car.make + ' \'s photo'"></td>
+        <td>
+          <img
+            [src]="car.imageUrl"
+            width="64"
+            height="42"
+            [alt]="car.make + ' \'s photo'"
+          />
+        </td>
         <td>{{ car.rentalPricePerDay | currency : "EUR" }}</td>
         <td>
-          <span class="badge" [ngClass]="[car.status === 'AVAILABLE' ? ' bg-success' : '', car.status === 'MAINTENANCE' ? ' bg-primary' : '', car.status === 'SOLD' ? ' bg-danger' : '']">
+          <span
+            class="badge"
+            [ngClass]="[
+              car.status === 'AVAILABLE' ? ' bg-success' : '',
+              car.status === 'MAINTENANCE' ? ' bg-primary' : '',
+              car.status === 'SOLD' ? ' bg-danger' : ''
+            ]"
+          >
             {{ car.status }}
           </span>
         </td>
-        <td>{{ car.categoryId }}</td>
+        <td>{{ car.seats }}</td>
+        <td>{{ car.transmission }}</td>
+        <td>{{ car.smallBag }}</td>
+        <td>{{ car.largeBag }}</td>
+        <td>{{ car.categoryName }}</td>
         <td>
           <a
             type="button"
@@ -60,23 +81,39 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
       <li class="page-item">
-        <button type="button" class="page-link" [disabled]="0 === currentPage" (click)="goToNextOrPreviousPage('backward')">
+        <button
+          type="button"
+          class="page-link"
+          [disabled]="0 === currentPage"
+          (click)="goToNextOrPreviousPage('backward')"
+        >
           <span aria-hidden="true">&laquo; Previous</span>
         </button>
       </li>
-      <li *ngFor="let pageNumber of [].constructor(totalPages); let i = index" class="page-item">
-        <button class="page-link" [ngClass]="i === currentPage ? ' active' : ''" (click)="goToPage(i)">
+      <li
+        *ngFor="let pageNumber of [].constructor(totalPages); let i = index"
+        class="page-item"
+      >
+        <button
+          class="page-link"
+          [ngClass]="i === currentPage ? ' active' : ''"
+          (click)="goToPage(i)"
+        >
           {{ i + 1 }}
         </button>
       </li>
       <li class="page-item">
-        <button type="button" class="page-link" [disabled]="currentPage === totalPages - 1" (click)="goToNextOrPreviousPage('forward')">
+        <button
+          type="button"
+          class="page-link"
+          [disabled]="currentPage === totalPages - 1"
+          (click)="goToNextOrPreviousPage('forward')"
+        >
           <span aria-hidden="true">Next &raquo;</span>
         </button>
       </li>
     </ul>
   </nav>
-  
 </div>
 
 <!-- add car modal -->
@@ -249,6 +286,91 @@
             <!-- <div *ngIf="addCarForm.controls['status'].invalid && (addCarForm.controls['status'].dirty || addCarForm.controls['status'].touched)" class="text-danger">
                     Status is required.
                   </div> -->
+          </div>
+
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="number"
+              formControlName="seats"
+              class="form-control"
+              name="seats"
+              id="seats"
+              placeholder="Enter car seats.."
+              required
+            />
+            <label for="seats">Seats</label>
+
+            <div
+              *ngIf="
+                addCarForm.controls['seats'].invalid &&
+                addCarForm.controls['seats'].touched
+              "
+              class="text-danger"
+            >
+              Please enter a valid one-digit seats.
+            </div>
+          </div>
+
+          <div class="form-group mb-3 mt-3">
+            <label for="transmission">Transmission</label>
+            <select
+              name="transmission"
+              id="transmission"
+              class="form-select"
+              formControlName="transmission"
+              required
+            >
+              <option value="" disabled selected>Select one..</option>
+              <option *ngFor="let tr of transmission" [ngValue]="tr">
+                {{ tr }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="number"
+              formControlName="smallBag"
+              class="form-control"
+              name="smallBag"
+              id="smallBag"
+              placeholder="Enter car smallBag.."
+              required
+            />
+            <label for="smallBag">Small Bag</label>
+
+            <div
+              *ngIf="
+                addCarForm.controls['smallBag'].invalid &&
+                addCarForm.controls['smallBag'].touched
+              "
+              class="text-danger"
+            >
+              Please enter a valid one-digit number for small bag.
+            </div>
+          </div>
+
+          <div class="form-group form-floating mb-3 mt-3">
+            <input
+              type="number"
+              formControlName="largeBag"
+              class="form-control"
+              name="largeBag"
+              id="largeBag"
+              placeholder="Enter car largeBag.."
+              required
+            />
+            <label for="largeBag">Large Bag</label>
+
+            <div
+              *ngIf="
+                addCarForm.controls['largeBag'].invalid &&
+                addCarForm.controls['largeBag'].touched
+              "
+              class="text-danger"
+            >
+              Please enter a valid one-digit number for large bag.
+            </div>
           </div>
 
           <div class="form-group mb-3 mt-3">

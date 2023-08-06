@@ -18,6 +18,8 @@ import { OurVehiclesComponent } from './components/user/display/our-vehicles/our
 import { ImageUrlTruncatePipe } from './pipes/image-url-truncate.pipe';
 import { AllVehiclesComponent } from './components/user/display/all-vehicles/all-vehicles.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { CustomerService } from './services/customer.service';
+import { TableOverflowPipe } from './pipes/table-overflow.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { FooterComponent } from './components/footer/footer.component';
     OurVehiclesComponent,
     ImageUrlTruncatePipe,
     AllVehiclesComponent,
-    FooterComponent
+    FooterComponent,
+    TableOverflowPipe
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,7 @@ import { FooterComponent } from './components/footer/footer.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [CustomerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

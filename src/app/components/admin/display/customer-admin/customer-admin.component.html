@@ -87,7 +87,9 @@
                   <div *ngIf="addCustomerForm.controls['email'].invalid && addCustomerForm.controls['email'].touched" class="text-danger">
                     <div *ngIf="addCustomerForm.controls['email'].hasError('required')">Email is required.</div>
                     <div *ngIf="!addCustomerForm.controls['email'].hasError('required') && addCustomerForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
+                    <div *ngIf="addCustomerForm.controls['email'].hasError('emailTaken')">Email is already taken.</div>
                   </div>
+
               </div>
               <div class="form-group form-floating mb-3 mt-3">
                 <input type="text" formControlName="phone" class="form-control" name="phone" id="phone" placeholder="Enter phone.." required>

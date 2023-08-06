@@ -19,6 +19,7 @@ import { CategoryService } from 'src/app/services/category.service';
 })
 export class CarAdminComponent implements OnInit {
   status = ['AVAILABLE', 'RENTED', 'MAINTENANCE', 'SOLD'];
+  transmission = ['MANUAL', 'AUTOMATIC']
   cars: Car[] = [];
   currentPage: number = 0;
   totalPages: number = 0;
@@ -45,7 +46,7 @@ export class CarAdminComponent implements OnInit {
   loadCategories() {
     this.categoryService.getCategories().subscribe((result) => {
       this.categories = result.data;
-      console.log(this.categories);
+      // console.log(this.categories);
     });
   }
 
@@ -75,7 +76,7 @@ export class CarAdminComponent implements OnInit {
         this.currentPage = pageNumber;
         this.cars = result.data.cars;
         this.totalPages = result.data.numberOfPages;
-        console.log('paginated: ' + JSON.stringify(result));
+        // console.log('paginated: ' + JSON.stringify(result));
       });
   }
 
@@ -91,6 +92,10 @@ export class CarAdminComponent implements OnInit {
         this.rentalPriceValidator,
       ]),
       status: new FormControl(''),
+      seats: new FormControl('', [Validators.required, this.oneDigitValidator]),
+      transmission: new FormControl('', [Validators.required]),
+      smallBag: new FormControl('', [Validators.required, this.oneDigitValidator]),
+      largeBag: new FormControl('', [Validators.required, this.oneDigitValidator]),
       categoryId: new FormControl(''),
     });
   }
@@ -114,6 +119,20 @@ export class CarAdminComponent implements OnInit {
     return null;
   }
 
+  oneDigitValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const yearPattern = /^[0-9]{1}$/;
+    if (!yearPattern.test(control.value)) {
+      return { invalidSeats: true };
+    }
+
+    if  (control.value === 0) {
+      return { invalidSeats: true}
+    }
+
+    return null;
+  }
+
+  
   updateCarFormInit() {
     this.updateCarForm = new FormGroup({
       id: new FormControl(''),

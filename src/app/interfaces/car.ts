@@ -6,5 +6,10 @@ export interface Car {
     imageUrl: string,
     rentalPricePerDay: number,
     status: string,
-    categoryId: number
+    seats: number,
+    transmission: string,
+    largeBag: number,
+    smallBag: number,
+    categoryId: number,
+    categoryName: string
 }

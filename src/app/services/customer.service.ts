@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { CustomerResponse } from '../interfaces/customer-response';
 import { CustomerResponseById } from '../interfaces/customer-response-by-id';
 import { Customer } from '../interfaces/customer';
@@ -32,6 +32,10 @@ export class CustomerService {
 
   addCustomer(customer: Customer): Observable<CustomerResponse> {
     return this.http.post<CustomerResponse>(this.baseUrl, customer)
+  }
+
+  checkEmailExists(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/check-email?email=${email}`);
   }
 
   deleteCustomerById(id: number): Observable<CustomerResponse> {
