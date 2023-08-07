@@ -1,10 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CarResponse } from '../interfaces/car-response';
 import { CarResponseById } from '../interfaces/car-response-by-id';
 import { Car } from '../interfaces/car';
 import { BASE_URL } from '../constants/constants';
+import { UserAuthService } from '../components/security/services/user-auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ import { BASE_URL } from '../constants/constants';
 export class CarService {
   private baseUrl: string = BASE_URL + '/cars';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, 
+    private userAuthService: UserAuthService) {}
 
   getCars(): Observable<CarResponse> {
     return this.http.get<CarResponse>(this.baseUrl);
@@ -27,15 +29,18 @@ export class CarService {
   }
 
   updateCar(car: Car) {
-    return this.http.put<CarResponse>(`${this.baseUrl}`, car);
+    const headers = this.getAuthHeaders();
+    return this.http.put<CarResponse>(`${this.baseUrl}`, car, {headers});
   }
 
   addCar(car: Car): Observable<CarResponse> {
-    return this.http.post<CarResponse>(this.baseUrl, car);
+    const headers = this.getAuthHeaders();
+    return this.http.post<CarResponse>(this.baseUrl, car, {headers});
   }
 
   deleteCarById(id: number): Observable<CarResponse> {
-    return this.http.delete<CarResponse>(`${this.baseUrl}/${id}`);
+    const headers = this.getAuthHeaders();
+    return this.http.delete<CarResponse>(`${this.baseUrl}/${id}`, {headers});
   }
 
   getAvailableCars(
@@ -57,5 +62,10 @@ export class CarService {
     const params = new HttpParams().set('matchingName', name);
 
     return this.http.get<CarResponse>(`${this.baseUrl}/filter`, { params });
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.userAuthService.getToken();
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 }

@@ -167,8 +167,7 @@ export class RentalAdminComponent implements OnInit {
     .subscribe(result => {
       console.log("Rental returned successfully.");
       this.loadRentals()
+      window.location.reload()
     })
-
-    window.location.reload()
   }
 }

@@ -40,15 +40,18 @@
           </li> -->
 
           <li class="nav-item">
-            <a class="nav-link" routerLink="admin">Admin</a>
+            <a *ngIf="isAdmin()" class="nav-link" routerLink="admin">Admin</a>
           </li>
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">Register</a>
+            <a *ngIf="!isLoggedIn()" class="nav-link" routerLink="login">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sign Up</a>
+            <a *ngIf="!isLoggedIn()" class="nav-link" routerLink="register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a *ngIf="isLoggedIn()" class="nav-link" routerLink="register" (click)="logout()">Logout</a>
           </li>
         </ul>
         <!-- <form class="d-flex" role="search">

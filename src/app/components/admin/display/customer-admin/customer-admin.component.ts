@@ -107,6 +107,7 @@ export class CustomerAdminComponent implements OnInit {
         this.loadCustomers();
       },
       (error) => {
+        console.log(error)
           alert(error.error.message)
       }
     );

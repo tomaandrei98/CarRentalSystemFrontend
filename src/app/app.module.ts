@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +20,12 @@ import { AllVehiclesComponent } from './components/user/display/all-vehicles/all
 import { FooterComponent } from './components/footer/footer.component';
 import { CustomerService } from './services/customer.service';
 import { TableOverflowPipe } from './pipes/table-overflow.pipe';
+import { LoginComponent } from './components/security/login/login/login.component';
+import { RegisterComponent } from './components/security/login/register/register.component';
+import { ForbiddenComponent } from './components/security/forbidden/forbidden.component';
+import { CategoryService } from './services/category.service';
+import { UserAuthService } from './components/security/services/user-auth.service';
+import { AuthInterceptor } from './components/security/auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,7 +43,10 @@ import { TableOverflowPipe } from './pipes/table-overflow.pipe';
     ImageUrlTruncatePipe,
     AllVehiclesComponent,
     FooterComponent,
-    TableOverflowPipe
+    TableOverflowPipe,
+    LoginComponent,
+    RegisterComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +55,7 @@ import { TableOverflowPipe } from './pipes/table-overflow.pipe';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [CustomerService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

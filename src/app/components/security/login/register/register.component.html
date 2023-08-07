@@ -1,0 +1,14 @@
+<div class="container mt-5">
+    <div class="card" style="padding: 20px;">
+        <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+            <input type="text" ngModel name="first_name" id="first_name" placeholder="Enter your firstName" class="form-control mb-3">
+            <input type="text" ngModel name="last_name" id="last_name" placeholder="Enter your lastName" class="form-control mb-3">
+            <input type="text" ngModel name="email" id="email" placeholder="Enter your email" class="form-control mb-3">
+            <input type="text" ngModel name="username" id="username" placeholder="Enter your username" class="form-control mb-3">
+            <input type="password" ngModel name="password" id="password" placeholder="Enter your password" class="form-control mb-3">
+            <input type="text" ngModel name="role" id="role" placeholder="Enter your role" class="form-control mb-3">
+
+            <input type="submit" value="Register" class="btn btn-outline-primary form-control rounded-0">
+        </form>
+    </div>
+</div>
