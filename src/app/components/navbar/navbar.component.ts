@@ -8,11 +8,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  loggedInUsername!: string;
 
   constructor(private userAuthSerivce: UserAuthService,
     private router: Router) {}
 
   public isLoggedIn() {
+    const username = this.userAuthSerivce.getUsername()
+    
+    if(username) {
+      this.loggedInUsername = username;
+    }
+
     return this.userAuthSerivce.isLoggedIn()
   }
 
@@ -24,5 +31,4 @@ export class NavbarComponent {
   public isAdmin() {
     return this.userAuthSerivce.getRole() === 'ADMIN';
   }
-
 }

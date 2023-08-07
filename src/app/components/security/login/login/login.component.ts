@@ -18,8 +18,10 @@ export class LoginComponent {
   login(loginForm: NgForm) {
     this.userService.login(loginForm.value.username, loginForm.value.password)
       .subscribe(response => {
+        console.log(response)
         this.userAuthService.setToken(response.token)
         this.userAuthService.setRole(response.userDetails.authorities[0].authority)
+        this.userAuthService.setUsername(response.userDetails.username)
 
         this.router.navigate(["vehicles"])
       },

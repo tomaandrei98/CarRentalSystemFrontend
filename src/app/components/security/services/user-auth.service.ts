@@ -15,6 +15,14 @@ export class UserAuthService {
     return localStorage.getItem('role');
   }
 
+  public setUsername(username: string) {
+    localStorage.setItem('username', username);
+  }
+
+  public getUsername() {
+    return localStorage.getItem('username');
+  }
+ 
   public setToken(jwtToken: string) {
     localStorage.setItem('jwtToken', jwtToken);
   }
