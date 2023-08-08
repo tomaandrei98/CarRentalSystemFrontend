@@ -18,8 +18,20 @@
                     <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" formControlName="name">
                     <button class="btn btn-outline-success rounded-pill" type="submit">Search</button>
                 </form>
+                
+            
             </div>
         </nav>
+
+        <div class="mb-4 w-50 mx-auto">
+            <form [formGroup]="priceFilterForm" (ngSubmit)="filterByPriceRange()">
+                <div class="input-group">
+                    <input type="number" class="form-control rounded-pill" placeholder="Min Price" formControlName="minPrice">
+                    <input type="number" class="form-control rounded-pill mx-3" placeholder="Max Price" formControlName="maxPrice">
+                    <button class="btn btn-outline-success rounded-pill" type="submit">Apply Price Filter</button>
+                </div>
+            </form>
+        </div>
         
         <div class="my-3 rounded-pill">
             <div class="row row-cols-2 row-cols-md-4 g-4">

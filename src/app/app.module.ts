@@ -19,6 +19,7 @@ import { TableOverflowPipe } from './pipes/table-overflow.pipe';
 import { LoginComponent } from './components/register/login/login.component';
 import { BookARentalComponent } from './components/user/display/book-a-rental/book-a-rental.component';
 import { HomeComponent } from './components/user/display/home/home.component';
+import { RegisterComponent } from './components/register/register/register.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { HomeComponent } from './components/user/display/home/home.component';
     TableOverflowPipe,
     LoginComponent,
     BookARentalComponent,
-    HomeComponent
+    HomeComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
