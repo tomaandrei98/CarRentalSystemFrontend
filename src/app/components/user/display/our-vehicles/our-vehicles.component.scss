@@ -1,0 +1,10 @@
+/* In your CSS file or style tag */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the container takes at least the viewport height */
+}
+
+.container {
+    flex: 1; /* Allow the container to grow and fill the remaining space */
+}

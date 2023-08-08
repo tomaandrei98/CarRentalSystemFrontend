@@ -5,22 +5,22 @@ import { CarService } from 'src/app/services/car.service';
 import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
-  selector: 'app-all-vehicles',
-  templateUrl: './all-vehicles.component.html',
-  styleUrls: ['./all-vehicles.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class AllVehiclesComponent implements OnInit {
+export class HomeComponent implements OnInit {
   cars: Car[] = [];
   categories: Category[] = [];
 
   constructor(private carService: CarService,
     private categoryService: CategoryService) {
-
   }
- 
+
+
   ngOnInit(): void {
     this.loadCars()
-    this.loadCategories()   
+    this.loadCategories()
   }
 
   loadCars() {
@@ -30,8 +30,8 @@ export class AllVehiclesComponent implements OnInit {
   }
 
   loadCategories() {
-    this.categoryService.getCategories().subscribe(result => {
-      this.categories = result.data
+    this.categoryService.getCategoriesPaginated().subscribe(result => {
+      this.categories = result.data.categories
     })
   }
 }
