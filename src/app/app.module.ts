@@ -5,9 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { LeftBarComponent } from './components/left-bar/left-bar.component';
-import { LeftBarExpandComponent } from './components/left-bar-expand/left-bar-expand.component';
-import { CarsDisplayComponent } from './components/cars-display/cars-display.component';
 import { AdminComponent } from './components/admin/admin/admin.component';
 import { CategoryAdminComponent } from './components/admin/display/category-admin/category-admin.component';
 import { CarAdminComponent } from './components/admin/display/car-admin/car-admin.component';
@@ -16,18 +13,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RentalAdminComponent } from './components/admin/display/rental-admin/rental-admin.component';
 import { OurVehiclesComponent } from './components/user/display/our-vehicles/our-vehicles.component';
 import { ImageUrlTruncatePipe } from './pipes/image-url-truncate.pipe';
-import { AllVehiclesComponent } from './components/user/display/all-vehicles/all-vehicles.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { CustomerService } from './services/customer.service';
 import { TableOverflowPipe } from './pipes/table-overflow.pipe';
+import { LoginComponent } from './components/register/login/login.component';
+import { BookARentalComponent } from './components/user/display/book-a-rental/book-a-rental.component';
+import { HomeComponent } from './components/user/display/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LeftBarComponent,
-    LeftBarExpandComponent,
-    CarsDisplayComponent,
     AdminComponent,
     CategoryAdminComponent,
     CarAdminComponent,
@@ -35,9 +31,11 @@ import { TableOverflowPipe } from './pipes/table-overflow.pipe';
     RentalAdminComponent,
     OurVehiclesComponent,
     ImageUrlTruncatePipe,
-    AllVehiclesComponent,
     FooterComponent,
-    TableOverflowPipe
+    TableOverflowPipe,
+    LoginComponent,
+    BookARentalComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

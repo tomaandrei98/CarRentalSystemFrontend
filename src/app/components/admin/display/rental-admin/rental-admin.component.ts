@@ -67,6 +67,7 @@ export class RentalAdminComponent implements OnInit {
     // })  
 
     this.rentalService.getRentalsPaginated().subscribe(result => {
+      console.log(result)
       this.rentals = result.data.rentals
       this.totalPages = result.data.numberOfPages;
     })

@@ -146,7 +146,11 @@ export class CarAdminComponent implements OnInit {
         this.rentalPriceValidator,
       ]),
       status: new FormControl(''),
-      // categoryId: new FormControl('')
+      seats: new FormControl('', [Validators.required, this.oneDigitValidator]),
+      transmission: new FormControl('', [Validators.required]),
+      smallBag: new FormControl('', [Validators.required, this.oneDigitValidator]),
+      largeBag: new FormControl('', [Validators.required, this.oneDigitValidator]),
+      categoryId: new FormControl(''),
     });
   }
 

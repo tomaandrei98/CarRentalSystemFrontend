@@ -1,3 +1,6 @@
+import { Car } from "./car";
+import { CarResponse } from "./car-response";
+
 export interface Rental {
     id: number,
     startDate: Date,
@@ -5,5 +8,7 @@ export interface Rental {
     returned: boolean,
     totalPrice: number,
     customerId: number,
-    carsId: Array<number>
+    customerEmail: string,
+    carsId: number[],
+    carsDto: Car[]
 }

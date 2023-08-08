@@ -599,8 +599,97 @@
                 <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
               </select>
             </div> -->
-        </div>
 
+            <div class="form-group form-floating mb-3 mt-3">
+              <input
+                type="number"
+                formControlName="seats"
+                class="form-control"
+                name="seats"
+                id="seats"
+                [(ngModel)]="carToUpdate.seats"
+                placeholder="Enter car seats.."
+                required
+              />
+              <label for="seats">Seats</label>
+  
+              <div
+                *ngIf="
+                  updateCarForm.controls['seats'].invalid &&
+                  updateCarForm.controls['seats'].touched
+                "
+                class="text-danger"
+              >
+                Please enter a valid one-digit seats.
+              </div>
+            </div>
+
+            <div class="form-group mb-3 mt-3">
+              <label for="transmission">Transmission</label>
+              <select
+                name="transmission"
+                id="transmission"
+                class="form-select"
+                [(ngModel)]="carToUpdate.transmission"
+                formControlName="transmission"
+                required
+              >
+                <option value="" disabled selected>Select one..</option>
+                <option *ngFor="let tr of transmission" [ngValue]="tr">
+                  {{ tr }}
+                </option>
+              </select>
+            </div>
+  
+            <div class="form-group form-floating mb-3 mt-3">
+              <input
+                type="number"
+                formControlName="smallBag"
+                class="form-control"
+                name="smallBag"
+                id="smallBag"
+                [(ngModel)]="carToUpdate.smallBag"
+                placeholder="Enter car smallBag.."
+                required
+              />
+              <label for="smallBag">Small Bag</label>
+  
+              <div
+                *ngIf="
+                  updateCarForm.controls['smallBag'].invalid &&
+                  updateCarForm.controls['smallBag'].touched
+                "
+                class="text-danger"
+              >
+                Please enter a valid one-digit number for small bag.
+              </div>
+            </div>
+
+            <div class="form-group form-floating mb-3 mt-3">
+              <input
+                type="number"
+                formControlName="largeBag"
+                class="form-control"
+                name="largeBag"
+                id="largeBag"
+                [(ngModel)]="carToUpdate.largeBag"
+                placeholder="Enter car largeBag.."
+                required
+              />
+              <label for="largeBag">Large Bag</label>
+  
+              <div
+                *ngIf="
+                  updateCarForm.controls['largeBag'].invalid &&
+                  updateCarForm.controls['largeBag'].touched
+                "
+                class="text-danger"
+              >
+                Please enter a valid one-digit number for large bag.
+              </div>
+            </div>
+
+        </div>
         <div class="modal-footer">
           <button
             type="button"

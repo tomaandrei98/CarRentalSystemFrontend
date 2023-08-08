@@ -9,26 +9,31 @@
             <th scope="col">End Date</th>
             <th scope="col">Returned</th>
             <th scope="col">Total Price</th>
-            <th scope="col">Customer #</th>
-            <th scope="col">Cars #</th>
+            <th scope="col">Customer Email</th>
+            <!-- <th scope="col">Cars #</th> -->
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let rental of rentals; let i = index">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{rental.startDate}}</td>
-            <td>{{rental.endDate}}</td>
-            <td>{{rental.returned}}</td>
-            <td>{{rental.totalPrice | currency:"EUR"}}</td>
-            <td>{{rental.customerId}}</td>
-            <td>{{rental.carsId}}</td>
-            <td>
-                <!-- <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateRental">Edit</a> -->
-                <a type="button" class="btn btn-warning" (click)="confirmReturn(rental)">Return</a>
-                <a type="button" class="btn btn-danger mx-2" (click)="confirmDelete(rental)">Delete</a>
-            </td>
-          </tr>
+
+            <tr *ngFor="let rental of rentals; let i = index">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{rental.startDate}}</td>
+              <td>{{rental.endDate}}</td>
+              <td>{{rental.returned}}</td>
+              <td>{{rental.totalPrice | currency:"EUR"}}</td>
+              <td>{{rental.customerEmail | imageUrlTruncate}}</td>
+              <!-- <td>{{rental.carsId}}</td> -->
+              <td>
+                  <!-- <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateRental">Edit</a> -->
+
+                  <a type="button" class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="'#rentalDetails' + i">Show Details</a>
+
+                  <a type="button" class="btn btn-warning mx-2" (click)="confirmReturn(rental)">Return</a>
+                  <a type="button" class="btn btn-danger" (click)="confirmDelete(rental)">Delete</a>
+              </td>
+            </tr>
+
         </tbody>
       </table>
 
@@ -122,6 +127,43 @@
         </form>
         </div>
     </div>
-  </div>
+</div>
   
   
+<!-- Inside the <div class="container"> element -->
+  <div *ngFor="let rental of rentals; let i = index">
+    <div class="modal fade" [id]="'rentalDetails' + i" tabindex="-1" aria-labelledby="rentalDetailsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rentalDetailsLabel">Rental Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Display rental details here -->
+                    <p><span class="fw-bold">Start Date:</span> {{ rental.startDate }}</p>
+                    <p><span class="fw-bold">End Date:</span> {{ rental.endDate }}</p>
+                    <p><span class="fw-bold">Returned:</span> {{ rental.returned }}</p>
+                    <p><span class="fw-bold">Total price:</span> {{ rental.totalPrice | currency:"EUR" }}</p>
+                    <p><span class="fw-bold">Customer email:</span> {{ rental.customerEmail }}</p>
+                    <p><span class="fw-bold">Cars:</span> </p>
+                    <ol>
+                      <li *ngFor="let car of rental.carsDto">
+                          <div class="car-details">
+                              <img [src]="car.imageUrl" alt="{{ car.make }} {{ car.model }}" class="car-image">
+                              <p><strong>{{ car.make }} {{ car.model }} - {{ car.year }}</strong></p>
+                              <p>Rental Price: {{ car.rentalPricePerDay | currency:'EUR' }}/day</p>
+                              <p>Seats: {{ car.seats }}</p>
+                              <!-- Display other car details as needed -->
+                          </div>
+                      </li>
+                    </ol>
+                    <!-- Add other rental details as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

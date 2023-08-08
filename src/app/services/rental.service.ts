@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RentalResponse } from '../interfaces/rental-response';
 import { Rental } from '../interfaces/rental';
+import { RentalCreate } from '../interfaces/rental-create';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,11 @@ export class RentalService {
     return this.http.get<RentalResponse>(this.baseUrl)
   }
 
-  getRentalsPaginated(pageNumber: number = 0, pageSize: number = 10, sortBy: string = "id"): Observable<any> {
+  getRentalsPaginated(pageNumber: number = 0, pageSize: number = 10, sortBy: string = "startDate"): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/paginated?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}`)
   }
 
-  addRental(rental: Rental): Observable<RentalResponse> {
+  addRental(rental: RentalCreate): Observable<RentalResponse> {
     return this.http.post<RentalResponse>(this.baseUrl, rental)
   }
 
