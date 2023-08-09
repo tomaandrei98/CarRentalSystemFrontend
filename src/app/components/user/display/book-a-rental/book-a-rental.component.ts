@@ -118,4 +118,35 @@ export class BookARentalComponent {
       this.availableCars = result.data
     })
   }
+
+  calculateTotalPrice(): number {
+    const selectedCars = this.availableCars.filter(car => this.selectedCarIds.includes(car.id));
+    const startDate = new Date(this.addRentalForm.get('startDate')?.value);
+    const endDate = new Date(this.addRentalForm.get('endDate')?.value);
+    const daysDifference = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
+    
+    let totalPrice = 0;
+    for (const car of selectedCars) {
+      totalPrice += car.rentalPricePerDay * daysDifference;
+    }
+    
+    return totalPrice;
+  }
+
+  calculateDays(): number {
+    const startDate = this.addRentalForm.get('startDate')?.value;
+    const endDate = this.addRentalForm.get('endDate')?.value;
+  
+    if (startDate && endDate) {
+      const startDateObj = new Date(startDate);
+      const endDateObj = new Date(endDate);
+      const timeDifference = Math.abs(endDateObj.getTime() - startDateObj.getTime());
+      const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+      return daysDifference;
+    }
+  
+    return 0;
+  }
+  
+  
 }

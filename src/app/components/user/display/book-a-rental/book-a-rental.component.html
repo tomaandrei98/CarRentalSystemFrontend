@@ -1,113 +1,143 @@
-<div class="container">
-    <div class="modal-dialog">
-        <div class="modal-content">
-          
-        <div class="modal-header">
-        <h1 class="modal-title fs-5" id="addRentalLabel">Add Rental</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        
-        <form [formGroup]="addRentalForm" action="" (ngSubmit)="submitFormData()">
-            <div class="modal-body">
-                <div class="form-group form-floating mb-3 mt-3">
-                    <input type="email" formControlName="email" class="form-control" name="email" id="email" placeholder="Enter your email.." required>
-                    <label for="email">Email</label>
-
-
-                  <div *ngIf="addRentalForm.controls['email'].invalid && addRentalForm.controls['email'].touched" class="text-danger">
-                    <div *ngIf="addRentalForm.controls['email'].hasError('required')">Email is required.</div>
-                    <div *ngIf="!addRentalForm.controls['email'].hasError('required') && addRentalForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
-                  </div>
-                </div>
-                <div class="form-group form-floating mb-3 mt-3">
-                    <input type="date" formControlName="startDate" class="form-control" name="startDate" id="startDate" placeholder="Enter starting date.." required>
-                    <label for="startDate">Start Date</label>
-
-                    <div *ngIf="addRentalForm.controls['startDate'].invalid && addRentalForm.controls['startDate'].touched" class="text-danger">
-                      <div *ngIf="addRentalForm.controls['startDate'].hasError('required')">Start date is required.</div>
-                      <div *ngIf="addRentalForm.controls['startDate'].hasError('startDateBeforeToday')">Start date cannot be before today.</div>
-                      <div *ngIf="addRentalForm.controls['startDate'].hasError('endDateBeforeStartDate')">Start date cannot be after the end date.</div>
-                    </div>
-                </div>
-                <div class="form-group form-floating mb-3 mt-3">
-                    <input type="date" formControlName="endDate" class="form-control" name="endDate" id="endDate" placeholder="Enter starting date.." required>
-                    <label for="endDate">End Date</label>
-
-                    <div *ngIf="addRentalForm.controls['endDate'].invalid && addRentalForm.controls['endDate'].touched" class="text-danger">
-                      <div *ngIf="addRentalForm.controls['endDate'].hasError('required')">End date is required.</div>
-                    </div>
-
-                    <div *ngIf="errorMessage" class="text-danger">
-                      {{ errorMessage }}
-                    </div>
-                </div>
-                
-                <a type="button" class="btn btn-primary m-3" (click)="populateAvailableCars()">Show Available Cars</a>
-
-                <h2 *ngIf="availableCars != null && availableCars.length === 0" class="text-center text-muted">No cars available for the selected dates.</h2>
-
-                <div class="my-3 rounded-pill">
-                    <div class="row row-cols-2 row-cols-md-4 g-4">
-                        <div class="col" *ngFor="let car of availableCars">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-body pb-0">
-                               
-                                    <!-- top -->
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
-                                            <span>{{ car.rentalPricePerDay | currency:"EUR" }} / day</span>
-                                        </div>
+<div class="vh-100 bg-body-light">
+    <div class="container">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              
+            <div class="modal-header">
+            <h1 class="modal-title fs-5 pt-3" id="addRentalLabel">Add Rental</h1>
+            </div>
             
-                                        <div class="col">
-                                            <span class="float-end">Category:</span>
-                                            <br>
-                                            <span class="float-end fw-bold">{{ car.categoryName }}</span>
-                                        </div>
-                                    </div>
-                               
-                                    <!-- mid -->
-                                    <img [src]="car.imageUrl" class="card-img-top" alt="...">
-            
-                                    <!-- bottom -->
+            <form [formGroup]="addRentalForm" action="" (ngSubmit)="submitFormData()">
+                <div class="modal-body">
+                    <div class="form-group form-floating mb-3 mt-3">
+                        <input type="email" formControlName="email" class="form-control" name="email" id="email" placeholder="Enter your email.." required>
+                        <label for="email">Email</label>
+    
+    
+                      <div *ngIf="addRentalForm.controls['email'].invalid && addRentalForm.controls['email'].touched" class="text-danger">
+                        <div *ngIf="addRentalForm.controls['email'].hasError('required')">Email is required.</div>
+                        <div *ngIf="!addRentalForm.controls['email'].hasError('required') && addRentalForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
+                      </div>
+                    </div>
+                    <div class="form-group form-floating mb-3 mt-3">
+                        <input type="date" formControlName="startDate" class="form-control" name="startDate" id="startDate" placeholder="Enter starting date.." required>
+                        <label for="startDate">Start Date</label>
+    
+                        <div *ngIf="addRentalForm.controls['startDate'].invalid && addRentalForm.controls['startDate'].touched" class="text-danger">
+                          <div *ngIf="addRentalForm.controls['startDate'].hasError('required')">Start date is required.</div>
+                          <div *ngIf="addRentalForm.controls['startDate'].hasError('startDateBeforeToday')">Start date cannot be before today.</div>
+                          <div *ngIf="addRentalForm.controls['startDate'].hasError('endDateBeforeStartDate')">Start date cannot be after the end date.</div>
+                        </div>
+                    </div>
+                    <div class="form-group form-floating mb-3 mt-3">
+                        <input type="date" formControlName="endDate" class="form-control" name="endDate" id="endDate" placeholder="Enter starting date.." required>
+                        <label for="endDate">End Date</label>
+    
+                        <div *ngIf="addRentalForm.controls['endDate'].invalid && addRentalForm.controls['endDate'].touched" class="text-danger">
+                          <div *ngIf="addRentalForm.controls['endDate'].hasError('required')">End date is required.</div>
+                        </div>
+    
+                        <div *ngIf="errorMessage" class="text-danger">
+                          {{ errorMessage }}
+                        </div>
+                    </div>
+                    
+                    <a type="button" class="btn btn-primary m-3" (click)="populateAvailableCars()">Show Available Cars</a>
+    
+                    <h2 *ngIf="availableCars != null && availableCars.length === 0" class="text-center text-muted">No cars available for the selected dates.</h2>
+    
+                    <div class="my-3 rounded-pill">
+                        <div class="row row-cols-2 row-cols-md-4 g-4">
+                            <div class="col" *ngFor="let car of availableCars">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body pb-0">
+                                   
+                                        <!-- top -->
                                         <div class="row">
                                             <div class="col">
-                                                <div class="card-text">
-                                                    <p class="card-title">Year: {{ car.year }}</p>
-                                                    <p class="card-title mt-3">Transmission: {{ car.transmission }}</p>
-                                                </div>
+                                                <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
+                                                <span>{{ car.rentalPricePerDay | currency:"EUR" }} / day</span>
                                             </div>
-                                            <div class="col m-0">
-                                                <p class="card-text">
-                                                    <span class="card-title float-end"><span>Seats</span>: {{ car.seats }}</span>
-                                                    <br>
-                                                    <span class="card-title float-end">Small Bag: {{ car.smallBag }}</span>
-                                                    <br>
-                                                    <span class="card-title float-end">Large Bag: {{ car.largeBag }}</span>
-                                                    <br>
-                                                    </p>
+                
+                                            <div class="col">
+                                                <span class="float-end">Category:</span>
+                                                <br>
+                                                <span class="float-end fw-bold">{{ car.categoryName }}</span>
                                             </div>
                                         </div>
-                                </div>
-                                <span class="badge mx-5 my-2" [ngClass]="[car.status === 'AVAILABLE' ? ' bg-success' : '', car.status === 'MAINTENANCE' ? ' bg-primary' : '', car.status === 'SOLD' ? ' bg-danger' : '']">
-                                    {{ car.status }}
-                                </span>
-                                <div class="form-check form-switch mx-auto">
-                                    <input class="form-check-input" type="checkbox" [id]="car.id" (change)="toggleCarSelection(car.id)">
-                                    <label class="form-check-label" [for]="car.id">Select Car</label>
+                                   
+                                        <!-- mid -->
+                                        <img [src]="car.imageUrl" class="card-img-top" alt="...">
+                
+                                        <!-- bottom -->
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="card-text">
+                                                        <p class="card-title">Year: {{ car.year }}</p>
+                                                        <p class="card-title mt-3">Transmission: {{ car.transmission }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col m-0">
+                                                    <p class="card-text">
+                                                        <span class="card-title float-end"><span>Seats</span>: {{ car.seats }}</span>
+                                                        <br>
+                                                        <span class="card-title float-end">Small Bag: {{ car.smallBag }}</span>
+                                                        <br>
+                                                        <span class="card-title float-end">Large Bag: {{ car.largeBag }}</span>
+                                                        <br>
+                                                        </p>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <span class="badge mx-5 my-2" [ngClass]="[car.status === 'AVAILABLE' ? ' bg-success' : '', car.status === 'MAINTENANCE' ? ' bg-primary' : '', car.status === 'SOLD' ? ' bg-danger' : '']">
+                                        {{ car.status }}
+                                    </span>
+                                    <div class="form-check form-switch mx-auto">
+                                        <input class="form-check-input" type="checkbox" [id]="car.id" (change)="toggleCarSelection(car.id)">
+                                        <label class="form-check-label" [for]="car.id">Select Car</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>   
+                
+                <!-- Display the breakdown of rental price calculation -->
+                <div *ngIf="selectedCarIds.length > 0">
+                    <h2 class="text-center mt-3">Rental Price Calculation</h2>
+                    <table class="table table-bordered mt-3">
+                      <thead>
+                        <tr>
+                          <th>Car</th>
+                          <th>Price per Day</th>
+                          <th>Number of Days</th>
+                          <th>Total Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let car of availableCars">
+                          <tr *ngIf="selectedCarIds.includes(car.id)" [ngClass]="{'table-success': true}">
+                            <td>{{ car.make }} {{ car.model }}</td>
+                            <td>{{ car.rentalPricePerDay | currency:'EUR' }}</td>
+                            <td>{{ calculateDays() }}</td>
+                            <td>{{ (car.rentalPricePerDay * calculateDays()) | currency:'EUR' }}</td>
+                          </tr>
+                        </ng-container>
+                        <tr *ngIf="selectedCarIds.length > 0">
+                          <td colspan="3" class="text-end fw-bold">Total Rental Price:</td>
+                          <td class="fw-bold">{{ calculateTotalPrice() | currency:'EUR' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                   
+                <div class="modal-footer d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="addRentalForm.invalid">Rent now</button>
                 </div>
-            </div>      
-            
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="addRentalForm.invalid">Rent now</button>
+            </form>
             </div>
-        </form>
         </div>
     </div>
+    
+    <app-footer *ngIf="availableCars"></app-footer>
 </div>
-
-<app-footer *ngIf="availableCars"></app-footer>

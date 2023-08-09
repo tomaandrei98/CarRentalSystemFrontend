@@ -1,95 +1,98 @@
-<div class="main-content">
-    <div class="container mb-10">
-        <nav class="navbar navbar-expand-lg">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <button class="nav-link" disabled>Filter by:</button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="nav-link" aria-current="page" (click)="loadCars()">All</button>
-                    </li>
-                    <li class="nav-item" *ngFor="let category of categories">
-                    <button class="nav-link" aria-current="page" (click)="filterCarsByCategory(category)"> {{ category.name }}</button>
-                    </li>
-                </ul>
-    
-                <form class="d-flex" role="search" [formGroup]="filterCarForm" (ngSubmit)="filterFormData()">
-                    <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" formControlName="name">
-                    <button class="btn btn-outline-success rounded-pill" type="submit">Search</button>
-                </form>
-                
-            
-            </div>
-        </nav>
-
-        <div class="mb-4 w-50 mx-auto">
-            <form [formGroup]="priceFilterForm" (ngSubmit)="filterByPriceRange()">
-                <div class="input-group">
-                    <input type="number" class="form-control rounded-pill" placeholder="Min Price" formControlName="minPrice">
-                    <input type="number" class="form-control rounded-pill mx-3" placeholder="Max Price" formControlName="maxPrice">
-                    <button class="btn btn-outline-success rounded-pill" type="submit">Apply Price Filter</button>
-                </div>
-            </form>
-        </div>
+<div class="vh-100 bg-body-light">
+    <div class="main-content">
+        <div class="container mb-10">
+            <nav class="navbar navbar-expand-lg">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <button class="nav-link" disabled>Filter by:</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" aria-current="page" (click)="loadCars()">All</button>
+                        </li>
+                        <li class="nav-item" *ngFor="let category of categories">
+                        <button class="nav-link" aria-current="page" (click)="filterCarsByCategory(category)"> {{ category.name }}</button>
+                        </li>
+                    </ul>
         
-        <div class="my-3 rounded-pill">
-            <div class="row row-cols-2 row-cols-md-4 g-4">
-                <div class="col" *ngFor="let car of cars">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body pb-0">
-                       
-                            <!-- top -->
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
-                                    <span>{{ car.rentalPricePerDay | currency:"EUR" }} / day</span>
-                                </div>
+                    <form class="d-flex" role="search" [formGroup]="filterCarForm" (ngSubmit)="filterFormData()">
+                        <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" formControlName="name">
+                        <button class="btn btn-outline-success rounded-pill" type="submit">Search</button>
+                    </form>
+                    
+                
+                </div>
+            </nav>
     
-                                <div class="col">
-                                    <span class="float-end">Category:</span>
-                                    <br>
-                                    <span class="float-end fw-bold">{{ car.categoryName }}</span>
-                                </div>
-                            </div>
-                       
-                            <!-- mid -->
-                            <img [src]="car.imageUrl" class="card-img-top" alt="...">
-    
-                            <!-- bottom -->
+            <div class="mb-4 w-50 mx-auto">
+                <form [formGroup]="priceFilterForm" (ngSubmit)="filterByPriceRange()">
+                    <div class="input-group">
+                        <input type="number" class="form-control rounded-pill" placeholder="Min Price" formControlName="minPrice">
+                        <input type="number" class="form-control rounded-pill mx-3" placeholder="Max Price" formControlName="maxPrice">
+                        <button class="btn btn-outline-success rounded-pill" type="submit">Apply Price Filter</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="my-3 rounded-pill">
+                <div class="row row-cols-2 row-cols-md-4 g-4">
+                    <div class="col" *ngFor="let car of cars">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body pb-0">
+                           
+                                <!-- top -->
                                 <div class="row">
                                     <div class="col">
-                                        <div class="card-text">
-                                            <p class="card-title">Year: {{ car.year }}</p>
-                                            <p class="card-title mt-3">Transmission: {{ car.transmission }}</p>
-                                        </div>
+                                        <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
+                                        <span>{{ car.rentalPricePerDay | currency:"EUR" }} / day</span>
                                     </div>
-                                    <div class="col m-0">
-                                        <p class="card-text">
-                                            <span class="card-title float-end"><span>Seats</span>: {{ car.seats }}</span>
-                                            <br>
-                                            <span class="card-title float-end">Small Bag: {{ car.smallBag }}</span>
-                                            <br>
-                                            <span class="card-title float-end">Large Bag: {{ car.largeBag }}</span>
-                                            <br>
-                                            </p>
+        
+                                    <div class="col">
+                                        <span class="float-end">Category:</span>
+                                        <br>
+                                        <span class="float-end fw-bold">{{ car.categoryName }}</span>
                                     </div>
                                 </div>
+                           
+                                <!-- mid -->
+                                <img [src]="car.imageUrl" class="card-img-top" alt="...">
+        
+                                <!-- bottom -->
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-text">
+                                                <p class="card-title">Year: {{ car.year }}</p>
+                                                <p class="card-title mt-3">Transmission: {{ car.transmission }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col m-0">
+                                            <p class="card-text">
+                                                <span class="card-title float-end"><span>Seats</span>: {{ car.seats }}</span>
+                                                <br>
+                                                <span class="card-title float-end">Small Bag: {{ car.smallBag }}</span>
+                                                <br>
+                                                <span class="card-title float-end">Large Bag: {{ car.largeBag }}</span>
+                                                <br>
+                                                </p>
+                                        </div>
+                                    </div>
+                            </div>
+                            <span class="badge mx-5 my-2" [ngClass]="[car.status === 'AVAILABLE' ? ' bg-success' : '', car.status === 'MAINTENANCE' ? ' bg-primary' : '', car.status === 'SOLD' ? ' bg-danger' : '']">
+                                {{ car.status }}
+                            </span>
                         </div>
-                        <span class="badge mx-5 my-2" [ngClass]="[car.status === 'AVAILABLE' ? ' bg-success' : '', car.status === 'MAINTENANCE' ? ' bg-primary' : '', car.status === 'SOLD' ? ' bg-danger' : '']">
-                            {{ car.status }}
-                        </span>
                     </div>
                 </div>
             </div>
+        
+        
+            <div class="alert alert-secondary my-4" role="alert" *ngIf="cars.length === 0">
+                No car found matching your criteria — try again!
+            </div>
+        
         </div>
-    
-    
-        <div class="alert alert-secondary my-4" role="alert" *ngIf="cars.length === 0">
-            No car found matching your criteria — try again!
-        </div>
-    
     </div>
+    
+    <app-footer></app-footer>
+    
 </div>
-
-<app-footer></app-footer>
