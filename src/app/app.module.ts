@@ -20,6 +20,11 @@ import { LoginComponent } from './components/register/login/login.component';
 import { BookARentalComponent } from './components/user/display/book-a-rental/book-a-rental.component';
 import { HomeComponent } from './components/user/display/home/home.component';
 import { RegisterComponent } from './components/register/register/register.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
+import { PhoneNumberPipe } from './pipes/phone-number.pipe';
+
 
 @NgModule({
   declarations: [
@@ -37,14 +42,17 @@ import { RegisterComponent } from './components/register/register/register.compo
     LoginComponent,
     BookARentalComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    PhoneNumberPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [CustomerService],
   bootstrap: [AppComponent]

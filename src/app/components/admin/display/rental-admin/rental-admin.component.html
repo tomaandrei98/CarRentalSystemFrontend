@@ -17,7 +17,7 @@
         <tbody>
 
             <tr *ngFor="let rental of rentals; let i = index">
-              <th scope="row">{{i + 1}}</th>
+              <th scope="row">{{i + 1 + currentPage * 10}}</th>
               <td>{{rental.startDate}}</td>
               <td>{{rental.endDate}}</td>
               <td>{{rental.returned}}</td>

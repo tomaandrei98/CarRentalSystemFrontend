@@ -18,7 +18,7 @@
             <td>{{customer.firstName}}</td>
             <td>{{customer.lastName}}</td>
             <td>{{customer.email}}</td>
-            <td>{{customer.phone}}</td>
+            <td>{{customer.phone | phoneNumber}}</td>
             <td>
                 <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateCustomer" (click)="populateModalForEdit(customer)">Edit</a>
                 <a type="button" class="btn btn-danger mx-2" (click)="confirmDelete(customer)">Delete</a>

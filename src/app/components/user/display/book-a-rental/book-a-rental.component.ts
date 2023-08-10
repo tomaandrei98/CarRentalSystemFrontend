@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/interfaces/car';
 import { Rental } from 'src/app/interfaces/rental';
 import { RentalResponse } from 'src/app/interfaces/rental-response';
@@ -24,7 +25,8 @@ export class BookARentalComponent {
   constructor(private rentalService: RentalService,
     private carService: CarService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.addRentalFormInit()
@@ -76,7 +78,8 @@ export class BookARentalComponent {
       this.addRentalForm.reset()
       console.log(result)
       console.log("Rental added successfully.")
-      window.location.reload();
+      this.toastr.success("You rental was created successfully! Check your email for details!", "Thank you for choosing our services!")
+      this.router.navigate(['home'])
     })
 
   }

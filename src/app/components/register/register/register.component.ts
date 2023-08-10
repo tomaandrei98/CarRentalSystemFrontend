@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class RegisterComponent  {
 
   constructor(private customerService: CustomerService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private toastr: ToastrService) {
 
   }
 
@@ -56,11 +58,12 @@ export class RegisterComponent  {
         this.addCustomerForm.reset();
         console.log(result);
         console.log('Customer added successfully.');
-        
+        this.toastr.success("Customer added successfully!", "Thank you for registering!");
         this.router.navigateByUrl('/home')
       },
       (error) => {
-          alert(error.error.message)
+          // alert(error.error.message)
+          this.toastr.error(error.error.message);
       }
     );
   
