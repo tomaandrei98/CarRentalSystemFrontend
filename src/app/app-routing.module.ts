@@ -8,7 +8,8 @@ import { BookARentalComponent } from './components/user/display/book-a-rental/bo
 import { HomeComponent } from './components/user/display/home/home.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: 'home', redirectTo: '', pathMatch: "full" },
   { path: 'vehicles', component: OurVehiclesComponent },
   { path: 'book', component: BookARentalComponent },
   { path: 'register', component: RegisterComponent },
