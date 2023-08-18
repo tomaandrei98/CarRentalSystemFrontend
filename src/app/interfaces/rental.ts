@@ -7,8 +7,8 @@ export interface Rental {
     endDate: Date,
     returned: boolean,
     totalPrice: number,
-    customerId: number,
-    customerEmail: string,
+    appUserId: number,
+    appUserEmail: string,
     carsId: number[],
     carsDto: Car[]
 }

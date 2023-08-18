@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
 import { PhoneNumberPipe } from './pipes/phone-number.pipe';
+import { UserAdminComponent } from './components/admin/display/user-admin/user-admin.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { PhoneNumberPipe } from './pipes/phone-number.pipe';
     BookARentalComponent,
     HomeComponent,
     RegisterComponent,
-    PhoneNumberPipe
+    PhoneNumberPipe,
+    UserAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -51,8 +53,8 @@ import { PhoneNumberPipe } from './pipes/phone-number.pipe';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(), // ToastrModule added
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [CustomerService],
   bootstrap: [AppComponent]

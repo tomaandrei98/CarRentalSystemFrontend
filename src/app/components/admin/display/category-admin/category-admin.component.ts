@@ -58,7 +58,7 @@ export class CategoryAdminComponent implements OnInit {
 
   goToPage(pageNumber: number) {
     this.categoryService
-      .getCategoriesPaginated(pageNumber, 10, 'name')
+      .getCategoriesPaginated(pageNumber, 10, 'id')
       .subscribe((result) => {
         this.currentPage = pageNumber;
         this.categories = result.data.categories;

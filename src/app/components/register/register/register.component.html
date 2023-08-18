@@ -1,34 +1,34 @@
 <div class="vh-100 bg-body-tertiary">
     <div class="container">
         <h1 class="py-5 text-center">Hit the Road <br>Register and Explore Car Rentals</h1>
-        <form [formGroup]="addCustomerForm" action="" (ngSubmit)="submitFormData()">
+        <form [formGroup]="addAppUserForm" action="" (ngSubmit)="submitFormData()">
             <div class="modal-body">
                 <div class="form-group form-floating mb-3 mt-3">
-                    <input type="text" formControlName="firstName" class="form-control" name="firstName" id="firstName" placeholder="Enter first name.." required>
-                    <label for="firstName">First Name</label>
+                    <input type="text" formControlName="first_name" class="form-control" name="first_name" id="first_name" placeholder="Enter first name.." required>
+                    <label for="first_name">First Name</label>
         
-                    <div *ngIf="addCustomerForm.controls['firstName'].invalid && addCustomerForm.controls['firstName'].touched" class="text-danger">
-                      <div *ngIf="addCustomerForm.controls['firstName'].hasError('required')">First name is required.</div>
-                      <div *ngIf="addCustomerForm.controls['firstName'].hasError('minlength')">First name should be at least 2 characters long.</div>
+                    <div *ngIf="addAppUserForm.controls['first_name'].invalid && addAppUserForm.controls['first_name'].touched" class="text-danger">
+                      <div *ngIf="addAppUserForm.controls['first_name'].hasError('required')">First name is required.</div>
+                      <div *ngIf="addAppUserForm.controls['first_name'].hasError('minlength')">First name should be at least 2 characters long.</div>
                     </div>
                 </div>
                 <div class="form-group form-floating mb-3 mt-3">
-                    <input type="text" formControlName="lastName" class="form-control" name="lastName" id="lastName" placeholder="Enter last name.." required>
-                    <label for="lastName">Last Name</label>
+                    <input type="text" formControlName="last_name" class="form-control" name="last_name" id="last_name" placeholder="Enter last name.." required>
+                    <label for="last_name">Last Name</label>
         
-                    <div *ngIf="addCustomerForm.controls['lastName'].invalid && addCustomerForm.controls['lastName'].touched" class="text-danger">
-                      <div *ngIf="addCustomerForm.controls['lastName'].hasError('required')">Last name is required.</div>
-                      <div *ngIf="addCustomerForm.controls['lastName'].hasError('minlength')">Last name should be at least 2 characters long.</div>
+                    <div *ngIf="addAppUserForm.controls['last_name'].invalid && addAppUserForm.controls['last_name'].touched" class="text-danger">
+                      <div *ngIf="addAppUserForm.controls['last_name'].hasError('required')">Last name is required.</div>
+                      <div *ngIf="addAppUserForm.controls['last_name'].hasError('minlength')">Last name should be at least 2 characters long.</div>
                     </div>
                 </div>
                 <div class="form-group form-floating mb-3 mt-3">
                     <input type="email" formControlName="email" class="form-control" name="email" id="email" placeholder="Enter email.." required>
                     <label for="email">Email</label>
         
-                    <div *ngIf="addCustomerForm.controls['email'].invalid && addCustomerForm.controls['email'].touched" class="text-danger">
-                      <div *ngIf="addCustomerForm.controls['email'].hasError('required')">Email is required.</div>
-                      <div *ngIf="!addCustomerForm.controls['email'].hasError('required') && addCustomerForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
-                      <div *ngIf="addCustomerForm.controls['email'].hasError('emailTaken')">Email is already taken.</div>
+                    <div *ngIf="addAppUserForm.controls['email'].invalid && addAppUserForm.controls['email'].touched" class="text-danger">
+                      <div *ngIf="addAppUserForm.controls['email'].hasError('required')">Email is required.</div>
+                      <div *ngIf="!addAppUserForm.controls['email'].hasError('required') && addAppUserForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
+                      <div *ngIf="addAppUserForm.controls['email'].hasError('emailTaken')">Email is already taken.</div>
                     </div>
         
                 </div>
@@ -36,16 +36,49 @@
                   <input type="text" formControlName="phone" class="form-control" name="phone" id="phone" placeholder="Enter phone.." required>
                   <label for="phone">Phone</label>
         
-                  <div *ngIf="addCustomerForm.controls['phone'].invalid && addCustomerForm.controls['phone'].touched" class="text-danger">
-                    <div *ngIf="addCustomerForm.controls['phone'].hasError('required')">Phone is required.</div>
-                    <div *ngIf="!addCustomerForm.controls['phone'].hasError('required') && addCustomerForm.controls['phone'].hasError('invalidPhoneLength')">Phone number must contain exactly 10 digits.</div>
-                    <div *ngIf="addCustomerForm.controls['phone'].hasError('pattern')">Invalid phone number. Only numbers are allowed.</div>
+                  <div *ngIf="addAppUserForm.controls['phone'].invalid && addAppUserForm.controls['phone'].touched" class="text-danger">
+                    <div *ngIf="addAppUserForm.controls['phone'].hasError('required')">Phone is required.</div>
+                    <div *ngIf="!addAppUserForm.controls['phone'].hasError('required') && addAppUserForm.controls['phone'].hasError('invalidPhoneLength')">Phone number must contain exactly 10 digits.</div>
+                    <div *ngIf="addAppUserForm.controls['phone'].hasError('pattern')">Invalid phone number. Only numbers are allowed.</div>
                   </div>
               </div>
+
+              <div class="form-group form-floating mb-3 mt-3">
+                <input type="text" formControlName="username" class="form-control" name="username" id="username" placeholder="Enter username.." required>
+                <label for="username">Username</label>
+    
+                <div *ngIf="addAppUserForm.controls['username'].invalid && addAppUserForm.controls['username'].touched" class="text-danger">
+                    <div *ngIf="addAppUserForm.controls['username'].hasError('required')">Username is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group form-floating mb-3 mt-3">
+                <input type="password" formControlName="password" class="form-control" name="password" id="password" placeholder="Enter password.." required>
+                <label for="password">Password</label>
+    
+                <div *ngIf="addAppUserForm.controls['password'].invalid && addAppUserForm.controls['password'].touched" class="text-danger">
+                    <div *ngIf="addAppUserForm.controls['password'].hasError('required')">Password is required.</div>
+                </div>
+            </div>
+
+            <div class="form-group form-floating mb-3 mt-3">
+                <select formControlName="role" class="form-control" name="role" id="role" required>
+                    <option value="" disabled>Select role...</option>
+                    <option value="USER">User</option>
+                    <option value="ADMIN">Admin</option>
+                    <!-- Add other role options if needed -->
+                </select>
+                <label for="role">Role</label>
+    
+                <div *ngIf="addAppUserForm.controls['role'].invalid && addAppUserForm.controls['role'].touched" class="text-danger">
+                    <div *ngIf="addAppUserForm.controls['role'].hasError('required')">Role is required.</div>
+                </div>
+            </div>
+              
             </div>      
             
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="addCustomerForm.invalid">Register</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="addAppUserForm.invalid">Register</button>
             </div>
         </form>
     </div>

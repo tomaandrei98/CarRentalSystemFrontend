@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Car } from 'src/app/interfaces/car';
 import { Rental } from 'src/app/interfaces/rental';
 import { RentalResponse } from 'src/app/interfaces/rental-response';
+import { AuthService } from 'src/app/services/auth.service';
 import { CarService } from 'src/app/services/car.service';
 import { RentalService } from 'src/app/services/rental.service';
 
@@ -24,6 +25,7 @@ export class BookARentalComponent {
 
   constructor(private rentalService: RentalService,
     private carService: CarService,
+    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService) {}
@@ -34,7 +36,7 @@ export class BookARentalComponent {
 
   addRentalFormInit() {
     this.addRentalForm = new FormGroup({
-      email: new FormControl('', [Validators.required, this.emailValidator]),
+      // email: new FormControl('', [Validators.required, this.emailValidator]),
       startDate: new FormControl('', [Validators.required, this.startDateValidator]),
       endDate: new FormControl('', [Validators.required]),
       carsId: new FormControl('')
@@ -88,10 +90,8 @@ export class BookARentalComponent {
     const index = this.selectedCarIds.indexOf(carId);
   
     if (index !== -1) {
-      // Car ID is already selected, remove it
       this.selectedCarIds.splice(index, 1);
     } else {
-      // Car ID is not selected, add it
       this.selectedCarIds.push(carId);
     }
   }
@@ -149,6 +149,10 @@ export class BookARentalComponent {
     }
   
     return 0;
+  }
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn()
   }
   
   

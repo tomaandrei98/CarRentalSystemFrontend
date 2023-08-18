@@ -1,24 +1,19 @@
 <div class="container">
-    <h1 class="my-5 text-center">Hit the Road <br>Register and Explore Car Rentals</h1>
-    <!-- <form [formGroup]="loginForm" action="" 
-    (ngSubmit)="submitFormData()"
-    >
+    <h1 class="my-5 text-center">Login and Let's Have a Ride</h1>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()">
         <div class="modal-body">
             <div class="form-group form-floating mb-3 mt-3">
-                <input type="email" formControlName="email" class="form-control" name="email" id="email" placeholder="Enter email.." required>
-                <label for="email">Email</label>
-    
-                <div *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched" class="text-danger">
-                  <div *ngIf="loginForm.controls['email'].hasError('required')">Email is required.</div>
-                  <div *ngIf="!loginForm.controls['email'].hasError('required') && loginForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
-                  <div *ngIf="loginForm.controls['email'].hasError('emailTaken')">Email is already taken.</div>
-                </div>
-    
+                <input type="text" formControlName="username" class="form-control" id="username" placeholder="Enter username.." required>
+                <label for="username">Username</label>
             </div>
-          </div>
-        
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="loginForm.invalid">Login!</button>
+            <div class="form-group form-floating mb-3 mt-3">
+                <input type="password" formControlName="password" class="form-control" id="password" placeholder="Enter password.." required>
+                <label for="password">Password</label>
+            </div>
         </div>
-    </form> -->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
+        </div>
+    </form>
 </div>

@@ -5,6 +5,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,36 +21,38 @@ export class LoginComponent implements OnInit {
     this.loginFormInit();
   }
 
+  constructor(
+    private authService: AuthService, // Import your AuthService
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
+
   loginFormInit() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, this.emailValidator]),
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
-  // validations
-  emailValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    if (!emailPattern.test(control.value)) {
-      return { invalidEmail: true };
+  submitLoginForm() {
+    if (this.loginForm.valid) {
+      const username = this.loginForm.get('username')?.value;
+      const password = this.loginForm.get('password')?.value;
+
+      this.authService.loginUser(username, password).subscribe(
+        (response) => {
+          this.toastr.success('Logged in successfully!', 'Welcome back!');
+
+          localStorage.setItem('username', response.username);
+          localStorage.setItem('role', response.role);
+          localStorage.setItem('token', response.token);
+
+          this.router.navigate(['/home']); 
+        },
+        (error) => {
+          this.toastr.error('Login failed. Please check your credentials.');
+        }
+      );
     }
-    return null;
   }
-
-      
-  // submitFormData() {
-  //   console.log(this.loginForm.value);
-
-  //   this.customerService.loginCustomer(this.loginForm.value).subscribe(
-  //     (result) => {
-  //       this.addCustomerForm.reset();
-  //       console.log(result);
-  //       console.log('Customer added successfully.');
-        
-  //       this.router.navigateByUrl('/home')
-  //     },
-  //     (error) => {
-  //         alert(error.error.message)
-  //     }
-  //   );
-  
 }

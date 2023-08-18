@@ -18,7 +18,7 @@ import { CategoryService } from 'src/app/services/category.service';
   styleUrls: ['./car-admin.component.scss'],
 })
 export class CarAdminComponent implements OnInit {
-  status = ['AVAILABLE', 'RENTED', 'MAINTENANCE', 'SOLD'];
+  status = ['AVAILABLE', 'MAINTENANCE', 'SOLD'];
   transmission = ['MANUAL', 'AUTOMATIC']
   cars: Car[] = [];
   currentPage: number = 0;

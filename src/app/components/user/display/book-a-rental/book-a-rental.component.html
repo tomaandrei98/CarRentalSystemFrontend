@@ -9,7 +9,7 @@
             
             <form [formGroup]="addRentalForm" action="" (ngSubmit)="submitFormData()">
                 <div class="modal-body">
-                    <div class="form-group form-floating mb-3 mt-3">
+                    <!-- <div class="form-group form-floating mb-3 mt-3">
                         <input type="email" formControlName="email" class="form-control" name="email" id="email" placeholder="Enter your email.." required>
                         <label for="email">Email</label>
     
@@ -18,7 +18,7 @@
                         <div *ngIf="addRentalForm.controls['email'].hasError('required')">Email is required.</div>
                         <div *ngIf="!addRentalForm.controls['email'].hasError('required') && addRentalForm.controls['email'].hasError('invalidEmail')">Invalid email address.</div>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="form-group form-floating mb-3 mt-3">
                         <input type="date" formControlName="startDate" class="form-control" name="startDate" id="startDate" placeholder="Enter starting date.." required>
                         <label for="startDate">Start Date</label>
@@ -131,8 +131,17 @@
                     </table>
                   </div>
                    
+                
+                <div class="alert alert-secondary my-4" role="alert" *ngIf="!isLoggedIn()">
+                  You should be logged in!
+                </div>
+<!--                 
+                <div class="alert alert-secondary my-4" role="alert" *ngIf="selectedCarIds.length === 0">
+                  You should pick at least one car!
+                </div> -->
+                      
                 <div class="modal-footer d-flex justify-content-center mt-3">
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="addRentalForm.invalid">Rent now</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="addRentalForm.invalid || !isLoggedIn() || selectedCarIds.length === 0">Rent now</button>
                 </div>
             </form>
             </div>

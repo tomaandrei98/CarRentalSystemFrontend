@@ -33,7 +33,7 @@ export class RentalAdminComponent implements OnInit {
 
   addRentalFormInit() {
     this.addRentalForm = new FormGroup({
-      email: new FormControl('', [Validators.required, this.emailValidator]),
+      // email: new FormControl('', [Validators.required, this.emailValidator]),
       startDate: new FormControl('', [Validators.required, this.startDateValidator]),
       endDate: new FormControl('', [Validators.required]),
       carsId: new FormControl('')
@@ -75,7 +75,7 @@ export class RentalAdminComponent implements OnInit {
 
   goToPage(pageNumber: number) {
     this.rentalService
-      .getRentalsPaginated(pageNumber, 10, 'id')
+      .getRentalsPaginated(pageNumber, 10, 'startDate')
       .subscribe((result) => {
         this.currentPage = pageNumber;
         this.rentals = result.data.rentals;
